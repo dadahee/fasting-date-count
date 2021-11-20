@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review` (
     `id`	bigint	PRIMARY KEY AUTO_INCREMENT,
     `food_id`	bigint	NOT NULL,
-    `date`	date	NOT NULL	COMMENT 'default: 오늘(생성일자)',
+    `date`	date	NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `title`	varchar(100)	NOT NULL,
     `content`	varchar(500)	NOT NULL,
     `fasted`	boolean	NOT NULL	DEFAULT 1,
@@ -17,7 +17,7 @@ CREATE TABLE `food` (
     `id`	bigint	PRIMARY KEY AUTO_INCREMENT,
     `user_id`	bigint	NOT NULL,
     `name`	varchar(50)	NOT NULL,
-    `start_date`	date	NOT NULL	COMMENT 'default: 오늘(생성일자)',
+    `start_date`	date	NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `day_count`	integer	NOT NULL	DEFAULT 0,
     `created_at`	datetime	NOT NULL,
     `updated_at`	datetime	NOT NULL
