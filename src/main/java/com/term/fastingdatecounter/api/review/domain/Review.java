@@ -41,7 +41,6 @@ public class Review extends BaseTimeEntity {
 
     @Builder
     public Review(Food food, Date date, String title, String content, boolean fasted) {
-        this.id = id;
         this.food = food;
         this.date = date;
         this.title = title;
