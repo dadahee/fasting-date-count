@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Dummy ###
+.DS_Store
+
+### oauth security settings ###
+application-oauth.properties
+
+### DB security settings ###
+application-real-db.properties
