@@ -39,8 +39,5 @@ out/
 ### Dummy ###
 .DS_Store
 
-### oauth security settings ###
-application-oauth.properties
-
-### DB security settings ###
-application-real-db.properties
+### Deploy settings: oauth & DB security ###
+application-deploy.yaml
