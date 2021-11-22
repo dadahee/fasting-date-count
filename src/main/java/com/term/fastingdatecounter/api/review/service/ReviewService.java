@@ -3,8 +3,10 @@ package com.term.fastingdatecounter.api.review.service;
 import com.term.fastingdatecounter.api.review.controller.dto.ReviewRequest;
 import com.term.fastingdatecounter.api.review.domain.Review;
 import com.term.fastingdatecounter.api.review.repository.ReviewRepository;
+import com.term.fastingdatecounter.api.user.controller.dto.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,11 +16,17 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
+    @Transactional(readOnly = true)
     public List<Review> findByFoodId(Long foodId) {
         return reviewRepository.findByFoodId(foodId);
     }
 
-    public void save(Long foodId, ReviewRequest reviewRequest){}
-    public void update(Long reviewId, ReviewRequest reviewRequest){}
-    public void delete(Long reviewId){}
+    @Transactional
+    public void save(Long userId, Long foodId, ReviewRequest reviewRequest){}
+
+    @Transactional
+    public void update(Long userId, Long reviewId, ReviewRequest reviewRequest){}
+
+    @Transactional
+    public void delete(Long userId, Long reviewId){}
 }

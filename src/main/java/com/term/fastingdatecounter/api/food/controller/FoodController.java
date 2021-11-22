@@ -4,10 +4,13 @@ import com.term.fastingdatecounter.api.food.controller.dto.FoodListResponse;
 import com.term.fastingdatecounter.api.food.controller.dto.FoodRequest;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.food.service.FoodService;
+import com.term.fastingdatecounter.api.user.controller.dto.dto.SessionUser;
+import com.term.fastingdatecounter.api.user.domain.LoginUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,38 +25,41 @@ public class FoodController {
 
     @Operation(summary = "음식 목록 조회")
     @GetMapping
-    public ResponseEntity<FoodListResponse> find(){
-        // get user Id
-        Long userId = Long.valueOf(1); // implement later
-        List<Food> foodList = foodService.find(userId); // implement later
+    public ResponseEntity<FoodListResponse> find(
+            @LoginUser SessionUser user
+    ){
+        List<Food> foodList = foodService.findByUserId(user.getId()); // find food list by session user id
         return ResponseEntity.ok(new FoodListResponse(foodList));
     }
 
     @Operation(summary = "음식 등록")
     @PostMapping
     public ResponseEntity<Void> save(
+            @LoginUser SessionUser user,
             @RequestBody FoodRequest foodRequest
     ){
-        foodService.save(foodRequest);
+        foodService.save(user.getId(), foodRequest);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "음식 수정")
     @PutMapping("/{foodId}")
     public ResponseEntity<Void> update(
+            @LoginUser SessionUser user,
             @PathVariable(name = "foodId") Long foodId,
             @RequestBody FoodRequest foodRequest
     ){
-        foodService.update(foodId, foodRequest);
+        foodService.update(user.getId(), foodId, foodRequest);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "음식 삭제")
     @DeleteMapping("/{foodId}")
     public ResponseEntity<Void> update(
+            @LoginUser SessionUser user,
             @PathVariable(name = "foodId") Long foodId
     ){
-        foodService.delete(foodId);
+        foodService.delete(user.getId(), foodId);
         return ResponseEntity.noContent().build();
     }
 }

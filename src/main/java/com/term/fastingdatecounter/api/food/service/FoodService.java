@@ -5,6 +5,7 @@ import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.food.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,17 +15,20 @@ public class FoodService {
 
     private final FoodRepository foodRepository;
 
-    public List<Food> find(Long userId) {
-        // implement later
+    @Transactional(readOnly = true)
+    public List<Food> findByUserId(Long userId) {
         return foodRepository.findByUserId(userId);
     }
 
-    public void save(FoodRequest foodRequest) {
+    @Transactional
+    public void save(Long userId, FoodRequest foodRequest) {
     }
 
-    public void update(Long foodId, FoodRequest foodRequest) {
+    @Transactional
+    public void update(Long userId, Long foodId, FoodRequest foodRequest) {
     }
 
-    public void delete(Long foodId) {
+    @Transactional
+    public void delete(Long userId, Long foodId) {
     }
 }

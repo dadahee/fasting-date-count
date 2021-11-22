@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.5.12' // swagger
+	implementation 'org.springframework.session:spring-session-jdbc' // session storage
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
