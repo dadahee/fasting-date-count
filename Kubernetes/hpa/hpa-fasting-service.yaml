@@ -1,0 +1,31 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fasting-service-hpa
+spec:
+  maxReplicas: 3
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fasting-service-deployment
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 5
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 1
+    scaleUp:
+      stabilizationWindowSeconds: 5
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 1
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
