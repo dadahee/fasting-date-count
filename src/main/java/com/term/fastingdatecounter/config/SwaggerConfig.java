@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI springShopOpenAPI() {
+    public OpenAPI fastingServiceAPI() {
         return new OpenAPI()
                 .info(new Info().title("fasting-date-counter API")
                         .description("fasting service API documentation")
