@@ -11,4 +11,4 @@ spec:
       - path: /fasting-service(/|$)(.*)
         backend:
           serviceName: fasting-service-lb
-          servicePort: 8083
+          servicePort: 8080
