@@ -5,6 +5,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 nohup.out
+src/main/resources/application-deploy.yaml
+src/main/resources/application-oauth.yaml
 
 ### STS ###
 .apt_generated
