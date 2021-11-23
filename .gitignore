@@ -20,6 +20,7 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/misc.xml
 *.iws
 *.iml
 *.ipr
@@ -45,3 +46,8 @@ application-deploy.yaml
 application-oauth.yaml
 src/main/resources/application-deploy.yaml
 src/main/resources/application-oauth.yaml
+
+### Load Test ###
+load_test.js
+node_modules/
+package-lock.json
