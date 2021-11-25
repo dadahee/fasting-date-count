@@ -18,7 +18,7 @@ pipeline {
     stage('deploy kubernetes') {
       steps {
         sh '''
-        sed -i 's/fasting-service:1.1/fasting-service:1.2/' ~/fasting-date-counter/Kubernetes/service/fasting-service.yaml
+        sed -i 's/fasting-service:1.1/fasting-service:1.2/' ../fasting-date-counter/Kubernetes/service/fasting-service.yaml
         kubectl apply -f ~/fasting-date-counter/Kubernetes/service/fasting-service.yaml
         '''
       }
