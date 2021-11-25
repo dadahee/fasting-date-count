@@ -1,0 +1,27 @@
+spring:
+  ### profile setting
+  config:
+    activate:
+      on-profile: deploy
+  jpa:
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  ### RDS
+  datasource:
+    url: jdbc:mariadb://fasting-service.cmd8ukylbe9z.us-west-2.rds.amazonaws.com:3306/fasting_service
+    username: admin
+    password: cktpeo1xla
+    driver-class-name: org.mariadb.jdbc.Driver
+  ### Spring Security & OAuth2
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 153689546576-0cgf677hv07vsp3m21eeqq30bprs8iur.apps.googleusercontent.com
+            client-secret: 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
+            scope: profile,email
+  ### Spring Session
+  session:
+    store-type: jdbc

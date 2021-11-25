@@ -44,8 +44,8 @@ out/
 ### Security settings: oauth & DB ###
 application-deploy.yaml
 application-oauth.yaml
-src/main/resources/application-deploy.yaml
-src/main/resources/application-oauth.yaml
+#src/main/resources/application-deploy.yaml
+#src/main/resources/application-oauth.yaml
 
 ### Load Test ###
 load_test.js
