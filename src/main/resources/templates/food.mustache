@@ -1,14 +1,38 @@
-<!DOCTYPE HTML>
-<html>
+{{> header }}
 
 <h2>음식 목록</h2>
 
-{{#userEmail}}
-    <div>{{ userEmail }}</div>
-{{/userEmail}}
+{{# user }}
+    <div>{{ user.id }}</div>
+    <div>{{ user.mail }}</div>
+{{/ user }}
 
-<a href="/logout">logout</a>
+<div>
+    <a href="/logout">logout</a>
+</div>
+
 
 <!-- food table -->
+<table>
+    <thead>
+        <th>id</th>
+        <th>name</th>
+        <th>start_date</th>
+        <th>day_count</th>
+        <th>created_at</th>
+        <th>updated_at</th>
+    </thead>
+    <tbody>
+    {{# foodList}}
+        <td><a href="/food/{{id}}//reviews">{{ id }}</a></td>
+        <td>{{ name }}</td>
+        <td>{{ start_date }}</td>
+        <td>{{ day_count }}</td>
+        <td>{{ created_at }}</td>
+        <td>{{ updated_at }}</td>
+    {{/foodList}}
+    </tbody>
+
+</table>
 
 </html>
