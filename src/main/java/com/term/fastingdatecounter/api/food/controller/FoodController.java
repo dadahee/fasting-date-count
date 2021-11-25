@@ -1,5 +1,7 @@
 package com.term.fastingdatecounter.api.food.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.term.fastingdatecounter.api.food.controller.dto.FoodListResponse;
 import com.term.fastingdatecounter.api.food.controller.dto.FoodResponse;
 import com.term.fastingdatecounter.api.food.domain.Food;
@@ -9,13 +11,11 @@ import com.term.fastingdatecounter.api.user.domain.LoginUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,11 +32,12 @@ public class FoodController {
     @GetMapping
     public String food(Model model, @LoginUser SessionUser user){
         List<Food> foodList = foodService.findByUserId(user.getId()); // find food list by session user id
-
         List<FoodResponse> foodListResponse = foodList.stream()
                 .map(FoodResponse::new)
                 .collect(Collectors.toList());
-        model.addAttribute("user", );
+        // new Gson().toJson(user)
+        model.addAttribute("userName", user.getName()); // 고치고 싶다...
+        model.addAttribute("userEmail", user.getEmail());
         model.addAttribute("foodList", foodListResponse);
         return "food";
     }
@@ -51,7 +52,9 @@ public class FoodController {
     @GetMapping("/update/{foodId}")
     public String foodUpdateForm(Model model, @PathVariable Long foodId){
         Food food = foodService.findById(foodId);
-        model.addAttribute("food", new FoodResponse(food));
+        model.addAttribute("id", foodId);
+        model.addAttribute("name", food.getName());
+        model.addAttribute("startDate", food.getStartDate());
         return "food-update";
     }
 }
