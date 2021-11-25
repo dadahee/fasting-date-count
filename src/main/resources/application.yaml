@@ -2,6 +2,11 @@ spring:
   datasource:
     generate-unique-name: false
 
+  ### auto reload when it's being developed
+  devtools:
+    livereload:
+      enabled: true
+
   ### execute schema.sql
   jpa:
     show-sql: true

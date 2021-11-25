@@ -23,4 +23,10 @@ public class MainController {
         }
         return "index";
     }
+
+    @Operation(summary = "배포 테스트 페이지")
+    @GetMapping("/deploy")
+    public String test() {
+        return "deploy";
+    }
 }
