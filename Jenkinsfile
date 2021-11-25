@@ -22,14 +22,5 @@ pipeline {
         '''
       }
     }
-    /*
-    stage('k8s deploy'){
-      steps {
-        kubernetesDeploy(kubeconfigId: 'kubeconfig',
-                         configs: 'Kubernetes/service/fasting-service.yaml')
-      }
-    }
-    */
-    
   }
 }
