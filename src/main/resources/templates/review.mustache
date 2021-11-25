@@ -1,39 +1,45 @@
 {{> header }}
 
-<h2>음식 목록</h2>
+<h2>리뷰 목록</h2>
 
-{{# user }}
-    <div>{{user.id}}</div>
-    <div>{{user.email}}</div>
-{{/ user }}
+{{# userName }}
+    <div>{{ userName }}</div>
+    <div>{{ userEmail }}</div>
+{{/ userName }}
 
 <div>
     <a href="/logout">logout</a>
 </div>
 <div>
-    <a href="/food">Back to food list</a>
+    <a href="/food/">Back to food list</a>
 </div>
-
+<div>
+    <a href="/food/{{foodId}}/reviews/save">Add review</a>
+</div>
 
 <!-- food table -->
 <table>
     <thead>
     <th>id</th>
-    <th>name</th>
-    <th>start_date</th>
-    <th>day_count</th>
-    <th>created_at</th>
-    <th>updated_at</th>
+    <th>date</th>
+    <th>title</th>
+    <th>content</th>
+    <th>fasted</th>
+    <th>수정</th>
+    <th>삭제</th>
     </thead>
     <tbody>
-    {{# foodList}}
-        <td><a href="/food/{{id}}">{{ id }}</a></td>
-        <td>{{ name }}</td>
-        <td>{{ start_date }}</td>
-        <td>{{ day_count }}</td>
-        <td>{{ created_at }}</td>
-        <td>{{ updated_at }}</td>
-    {{/foodList}}
+    {{# reviewList}}
+        <tr>
+            <td id="review-id">{{ id }}</td>
+            <td>{{ date }}</td>
+            <td>{{ title }}</td>
+            <td>{{ content }}</td>
+            <td>{{ fasted }}</td>
+            <td><a href="/food/{{foodId}}/reviews/update/{{id}}" type="button">수정</a></td>
+            <td><button>삭제</button></td>
+        </tr>
+    {{/ reviewList}}
     </tbody>
 </table>
 </html>

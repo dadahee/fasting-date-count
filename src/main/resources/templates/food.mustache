@@ -2,14 +2,16 @@
 
 <h2>음식 목록</h2>
 
-{{# user }}
-    <div>{{ user.id }}</div>
-    <div>{{ user.mail }}</div>
-{{/ user }}
+{{# userName }}
+    <div>{{ userName }}</div>
+    <div>{{ userEmail }}</div>
+{{/ userName }}
 
 <div>
     <a href="/logout">logout</a>
 </div>
+
+<a href="/food/save">Add food</a>
 
 
 <!-- food table -->
@@ -19,17 +21,17 @@
         <th>name</th>
         <th>start_date</th>
         <th>day_count</th>
-        <th>created_at</th>
-        <th>updated_at</th>
     </thead>
     <tbody>
     {{# foodList}}
-        <td><a href="/food/{{id}}//reviews">{{ id }}</a></td>
-        <td>{{ name }}</td>
-        <td>{{ start_date }}</td>
-        <td>{{ day_count }}</td>
-        <td>{{ created_at }}</td>
-        <td>{{ updated_at }}</td>
+        <tr>
+            <td><a href="/food/{{id}}/reviews">{{ id }}</a></td>
+            <td>{{ name }}</td>
+            <td>{{ startDate }}</td>
+            <td>{{ dayCount }}</td>
+            <td><a href="food/update/{{id}}" type="button">수정</a></td>
+            <td><button>삭제</button></td>
+        </tr>
     {{/foodList}}
     </tbody>
 

@@ -1,6 +1,32 @@
 {{> header }}
 
+{{> header }}
 
+<h1>리뷰 추가</h1>
 
+<div>
+    <div>
+        <form>
+            <div class="food-id" id="{{foodId}}">
+                <label for="date">날짜</label>
+                <input type="date" id="date">
+            </div>
+            <div class="id" id="{{id}}">
+                <label for="title">제목</label>
+                <input type="text" id="title">
+            </div>
+            <div>
+                <label for="content">내용</label>
+                <input type="text" id="content">
+            </div>
+            <div>
+                <label for="fasted">단식여부</label>
+                <input type="checkbox" id="fasted">
+            </div>
+        </form>
+        <a href="/food/{{foodId}}/reviews" role="button">취소</a>
+        <button type="button" id="btn-review-save">등록</button>
+    </div>
+</div>
 
 </html>

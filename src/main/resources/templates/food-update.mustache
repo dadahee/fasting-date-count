@@ -1,4 +1,23 @@
 {{> header }}
 
+<h1>음식 수정</h1>
+
+<!-- 각 필드마다 value 추가해야 함-->
+<div>
+    <div>
+        <form>
+            <div clas="food-id" id="{{id}}">
+                <label for="name">음식명</label>
+                <input type="text" id="name" value="{{name}}">
+            </div>
+            <div>
+                <label for="start-date">시작일</label>
+                <input type="date" id="start-date" value="{{startDate}}">
+            </div>
+        </form>
+        <a href="/food" role="button">취소</a>
+        <button type="button" id="btn-food-update">등록</button>
+    </div>
+</div>
 
 </html>

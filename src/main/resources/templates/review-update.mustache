@@ -1,7 +1,33 @@
 {{> header }}
 
+<h1>리뷰 수정</h1>
+<!-- 값 불러오기 추가해야 함-->
 
-
-
+{{# review}}
+<div>
+    <div>
+        <form>
+            <div class=".review-id" id="{{id}}">
+                <label for="date">날짜</label>
+                <input type="date" id="date" value="{{date}}">
+            </div>
+            <div>
+                <label for="title">제목</label>
+                <input type="text" id="title" value="{{title}}">
+            </div>
+            <div>
+                <label for="content">내용</label>
+                <input type="text" id="content" value="{{content}}">
+            </div>
+            <div>
+                <label for="fasted">단식여부</label>
+                <input type="checkbox" id="fasted" value="{{fasted}}">
+            </div>
+        </form>
+        <a href="/food/{{foodId}}/reviews" role="button">취소</a>
+        <button type="button" id="btn-review-save">등록</button>
+    </div>
+</div>
+{{/review}}
 
 </html>
