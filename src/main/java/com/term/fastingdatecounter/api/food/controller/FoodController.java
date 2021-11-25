@@ -15,8 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "음식 관련 페이지")
 @RequiredArgsConstructor
@@ -31,8 +33,11 @@ public class FoodController {
     public String food(Model model, @LoginUser SessionUser user){
         List<Food> foodList = foodService.findByUserId(user.getId()); // find food list by session user id
 
-        model.addAttribute("userEmail", user.getEmail());
-        model.addAttribute("foodList", new FoodListResponse(foodList));
+        List<FoodResponse> foodListResponse = foodList.stream()
+                .map(FoodResponse::new)
+                .collect(Collectors.toList());
+        model.addAttribute("user", );
+        model.addAttribute("foodList", foodListResponse);
         return "food";
     }
 

@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -17,11 +16,11 @@ public class MainController {
 
     @Operation(summary = "메인 페이지")
     @GetMapping("/")
-    public String index(@LoginUser SessionUser user) {
+    public String main(@LoginUser SessionUser user) {
         if (user != null) {
             return "redirect:/food";
         }
-        return "index";
+        return "main";
     }
 
     @Operation(summary = "배포 테스트 페이지")
