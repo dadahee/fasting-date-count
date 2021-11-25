@@ -9,7 +9,7 @@ pipeline {
     stage('k8s deploy'){
       steps {
         kubernetesDeploy(kubeconfigId: 'kubeconfig',
-                         configs: 'fasting-service.yaml')
+                         configs: 'Kubernetes/service/fasting-service.yaml')
       }
     }    
   }
