@@ -10,7 +10,6 @@ pipeline {
       steps {
         sh '''
         docker build -t 192.168.1.10:8443/fasting-service:1.2 .
-        docker rmi $(docker images -f "dangling=true" -q)
         docker push 192.168.1.10:8443/fasting-service:1.2
         
         '''
