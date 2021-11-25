@@ -3,7 +3,6 @@
 <h1>리뷰 수정</h1>
 <!-- 값 불러오기 추가해야 함-->
 
-{{# review}}
 <div>
     <div>
         <form>
@@ -11,7 +10,7 @@
                 <label for="date">날짜</label>
                 <input type="date" id="date" value="{{date}}">
             </div>
-            <div>
+            <div class="id" id="{{id}}">
                 <label for="title">제목</label>
                 <input type="text" id="title" value="{{title}}">
             </div>
@@ -28,6 +27,5 @@
         <button type="button" id="btn-review-save">등록</button>
     </div>
 </div>
-{{/review}}
 
 </html>

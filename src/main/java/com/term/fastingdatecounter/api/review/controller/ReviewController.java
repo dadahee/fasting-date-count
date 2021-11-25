@@ -53,7 +53,11 @@ public class ReviewController {
 
     @Operation(summary = "리뷰 작성 페이지")
     @GetMapping("/save")
-    public String reviewSaveForm() {
+    public String reviewSaveForm(
+            Model model,
+            @PathVariable(name = "foodId") Long foodId
+    ) {
+        model.addAttribute("foodId", foodId);
         return "review-save";
     }
 
@@ -65,6 +69,7 @@ public class ReviewController {
             @PathVariable(name = "reviewId") Long reviewId
     ){
         Review review = reviewService.findById(reviewId);
+        model.addAttribute("id", reviewId);
         model.addAttribute("foodId", foodId);
 //        model.addAttribute("review", new Gson().toJson(review));
         model.addAttribute("date", review.getDate());
