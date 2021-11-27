@@ -1,11 +1,18 @@
 {{> header }}
 
+<!-- food info -->
+<div class="food" id="{{food.id}}" hidden></div>
+<h2>음식 정보</h2>
+<div>{{food.name}}</div>
+<div>{{food.startDate}}</div>
+<div>{{food.dayCount}}</div>
+
 <h2>리뷰 목록</h2>
 
-{{# userName }}
-    <div>{{ userName }}</div>
-    <div>{{ userEmail }}</div>
-{{/ userName }}
+{{# user }}
+    <div>{{ name }}</div>
+    <div>{{ email }}</div>
+{{/ user }}
 
 <div>
     <a href="/logout">logout</a>
@@ -14,10 +21,11 @@
     <a href="/food/">Back to food list</a>
 </div>
 <div>
-    <a href="/food/{{foodId}}/reviews/save">Add review</a>
+    <a href="/food/{{food.id}}/reviews/save">Add review</a>
 </div>
 
-<!-- food table -->
+
+<!-- review table -->
 <table>
     <thead>
     <th>id</th>
@@ -31,15 +39,16 @@
     <tbody>
     {{# reviewList}}
         <tr>
-            <td id="review-id">{{ id }}</td>
+            <td>{{ id }}</td>
             <td>{{ date }}</td>
             <td>{{ title }}</td>
             <td>{{ content }}</td>
             <td>{{ fasted }}</td>
-            <td><a href="/food/{{foodId}}/reviews/update/{{id}}" type="button">수정</a></td>
-            <td><button>삭제</button></td>
+            <td><a href="/food/{{food.id}}/reviews/update/{{id}}" type="button">수정</a></td>
+            <td><button class="btn-review-delete" id="{{id}}">삭제</button></td>
         </tr>
     {{/ reviewList}}
     </tbody>
 </table>
-</html>
+
+{{> footer }}

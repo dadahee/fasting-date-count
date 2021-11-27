@@ -1,8 +1,5 @@
 package com.term.fastingdatecounter.api.food.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.term.fastingdatecounter.api.food.controller.dto.FoodListResponse;
 import com.term.fastingdatecounter.api.food.controller.dto.FoodResponse;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.food.service.FoodService;
@@ -35,9 +32,7 @@ public class FoodController {
         List<FoodResponse> foodListResponse = foodList.stream()
                 .map(FoodResponse::new)
                 .collect(Collectors.toList());
-        // new Gson().toJson(user)
-        model.addAttribute("userName", user.getName()); // 고치고 싶다...
-        model.addAttribute("userEmail", user.getEmail());
+        model.addAttribute("user", user); // 고치고 싶다...
         model.addAttribute("foodList", foodListResponse);
         return "food";
     }
@@ -52,9 +47,7 @@ public class FoodController {
     @GetMapping("/update/{foodId}")
     public String foodUpdateForm(Model model, @PathVariable Long foodId){
         Food food = foodService.findById(foodId);
-        model.addAttribute("id", foodId);
-        model.addAttribute("name", food.getName());
-        model.addAttribute("startDate", food.getStartDate());
+        model.addAttribute("food", food);
         return "food-update";
     }
 }

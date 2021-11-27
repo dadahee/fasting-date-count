@@ -1,10 +1,7 @@
 package com.term.fastingdatecounter.api.review.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.food.service.FoodService;
-import com.term.fastingdatecounter.api.review.controller.dto.ReviewListResponse;
 import com.term.fastingdatecounter.api.review.controller.dto.ReviewResponse;
 import com.term.fastingdatecounter.api.review.domain.Review;
 import com.term.fastingdatecounter.api.review.service.ReviewService;
@@ -43,11 +40,15 @@ public class ReviewController {
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
         Food food = foodService.findById(foodId);
-        model.addAttribute("foodId", foodId); // 거슬려..
-        model.addAttribute("foodName", food.getName());
-        model.addAttribute("userName", user.getName());
-        model.addAttribute("userEmail", user.getEmail());
+
+        model.addAttribute("food", food);
+        model.addAttribute("user", user);
         model.addAttribute("reviewList",reviewList);
+
+//        model.addAttribute("foodId", foodId); // 거슬려..
+//        model.addAttribute("foodName", food.getName());
+//        model.addAttribute("userName", user.getName());
+//        model.addAttribute("userEmail", user.getEmail());
         return "review";
     }
 
@@ -57,7 +58,8 @@ public class ReviewController {
             Model model,
             @PathVariable(name = "foodId") Long foodId
     ) {
-        model.addAttribute("foodId", foodId);
+        Food food = foodService.findFoodById(foodId);
+        model.addAttribute("food", food);
         return "review-save";
     }
 
@@ -69,13 +71,14 @@ public class ReviewController {
             @PathVariable(name = "reviewId") Long reviewId
     ){
         Review review = reviewService.findById(reviewId);
-        model.addAttribute("id", reviewId);
-        model.addAttribute("foodId", foodId);
-//        model.addAttribute("review", new Gson().toJson(review));
-        model.addAttribute("date", review.getDate());
-        model.addAttribute("title", review.getTitle());
-        model.addAttribute("content", review.getContent());
-        model.addAttribute("fasted", review.isFasted());
+        model.addAttribute("review", review);
+
+//        model.addAttribute("id", reviewId);
+//        model.addAttribute("foodId", foodId);
+//        model.addAttribute("date", review.getDate());
+//        model.addAttribute("title", review.getTitle());
+//        model.addAttribute("content", review.getContent());
+//        model.addAttribute("fasted", review.isFasted());
         return "review-update";
     }
 }

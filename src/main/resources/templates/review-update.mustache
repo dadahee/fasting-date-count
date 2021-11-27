@@ -3,10 +3,11 @@
 <h1>리뷰 수정</h1>
 <!-- 값 불러오기 추가해야 함-->
 
+{{# review }}
 <div>
     <div>
-        <form>
-            <div class=".review-id" id="{{id}}">
+        <form class="food-id" id="{{food.id}}">
+            <div class="review-id" id="{{id}}">
                 <label for="date">날짜</label>
                 <input type="date" id="date" value="{{date}}">
             </div>
@@ -20,12 +21,13 @@
             </div>
             <div>
                 <label for="fasted">단식여부</label>
-                <input type="checkbox" id="fasted" value="{{fasted}}">
+                <input type="checkbox" id="fasted" {{#fasted}} checked {{/fasted}}>
             </div>
         </form>
-        <a href="/food/{{foodId}}/reviews" role="button">취소</a>
-        <button type="button" id="btn-review-save">등록</button>
+        <a href="/food/{{food.id}}/reviews" role="button">취소</a>
+        <button type="button" class="btn-review-update">등록</button>
     </div>
 </div>
+{{/ review }}
 
-</html>
+{{> footer }}
