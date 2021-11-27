@@ -26,9 +26,12 @@
         </div>
         <div class="col-1"></div>
         <div class="col-2">
-            <span><a href="/food/{{id}}/reviews" id="food-id" class="text-black" style="text-decoration: none">📆</a></span>
-            <span><a href="/food/update/{{id}}" class="ms-4 text-black" style="text-decoration: none">✏️</a></span>
-            <span class="btn-food-delete ms-4" id="{{id}}" style="text-decoration: none; cursor: pointer;">❎</span>
+            <span><a href="/food/{{id}}/reviews" id="food-id" class="text-black" style="text-decoration: none"
+                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="reviews">📆</a></span>
+            <span><a href="/food/update/{{id}}" class="ms-4 text-black" style="text-decoration: none"
+                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="edit">✏️</a></span>
+            <span class="btn-food-delete ms-4" id="{{id}}" style="text-decoration: none; cursor: pointer;"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="delete">🗑</span>
         </div>
     </div>
 <hr class="m-0">

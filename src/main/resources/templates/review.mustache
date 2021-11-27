@@ -35,13 +35,14 @@
                         <span>☹️</span>
                     {{/fasted}}
                 </div>
-                <div class="col-4 text-start">
+                <div class="col-7 text-start">
                     <span class="ml-3 h4">{{ title }}</span>
                 </div>
-                <div class="col-3"></div>
                 <div class="col-2 h3">
-                    <span><a href="/food/{{food.id}}/reviews/update/{{id}}" type="button" class="ms-4 text-black" style="text-decoration: none">✏️</a></span>
-                    <span class="btn-review-delete ms-4" id="{{id}}" style="text-decoration: none; cursor: pointer;">❎</span>
+                    <span><a href="/food/{{food.id}}/reviews/update/{{id}}" type="button" class="ms-4 text-black" style="text-decoration: none"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="edit">✏️</a></span>
+                    <span class="btn-review-delete ms-4" id="{{id}}" style="text-decoration: none; cursor: pointer;"
+                          data-bs-toggle="tooltip" data-bs-placement="bottom" title="delete">🗑</span>
                 </div>
             </div>
             <div class="row lead">
