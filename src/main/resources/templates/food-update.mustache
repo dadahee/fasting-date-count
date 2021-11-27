@@ -1,25 +1,35 @@
 {{> header }}
 
-<h1>음식 수정</h1>
 
-<!-- 각 필드마다 value 추가해야 함-->
-{{# food }}
-<div>
-    <div>
+{{# food}}
+<div class="p-5 mb-4 bg-white rounded-3">
+    <div class="px-3 mb-5 h2">음식 변경</div>
+    <div class="container text-center">
         <form>
-            <div class="food-id" id="{{id}}">
-                <label for="name">음식명</label>
-                <input type="text" id="name" value="{{name}}">
+            <div class="mb-3 form-group row">
+                <div class="col-3 food-id" id="{{id}}"></div>
+                <label for="name" class="col-form-label col-1">음식명</label>
+                <div class="col-5">
+                    <input type="text" id="name" class="form-control" value="{{name}}">
+                </div>
+                <div class="col-3"></div>
             </div>
-            <div>
-                <label for="start-date">시작일</label>
-                <input type="date" id="start-date" value="{{startDate}}">
+            <div class="mb-5 form-group row">
+                <div class="col-3"></div>
+                <label for="start-date" class="form-label col-1">시작일</label>
+                <div class="col-5">
+                    <input type="date" id="start-date" class="form-control" value="{{startDate}}">
+                </div>
+                <div class="col-3"></div>
             </div>
         </form>
-        <a href="/food" role="button">취소</a>
-        <button type="button" class="btn-food-update">등록</button>
+        <div class="btn-group">
+            <button type="button" class="btn-food-update btn btn-dark btn-lg">등록</button>
+            <a href="/food" role="button" class="btn btn-secondary btn-lg">취소</a>
+        </div>
     </div>
 </div>
 {{/food}}
+
 
 {{> footer }}

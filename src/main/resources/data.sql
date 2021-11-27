@@ -5,7 +5,6 @@ insert into user (email, name, created_at, updated_at) values ('jasonyoo950909@g
 insert into food (user_id, name, start_date, created_at, updated_at) values (1, '커피', '2021-11-22', now(), now());
 insert into food (user_id, name, start_date, created_at, updated_at) values (1, '토샷추', '2021-11-24', now(), now());
 insert into food (user_id, name, start_date, created_at, updated_at) values (1, '초콜릿', '2021-11-20', now(), now());
-insert into food (user_id, name, start_date, created_at, updated_at) values (1, '술', '2021-11-25', now(), now());
 insert into food (user_id, name, start_date, created_at, updated_at) values (1, '탄산음료', '2021-11-25', now(), now());
 
 insert into review (food_id, date, title, content, fasted, created_at, updated_at) values (1, '2021-11-22', '1일차', '이정도는 만만하지', 1, now(), now());

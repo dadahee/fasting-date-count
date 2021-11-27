@@ -1,31 +1,50 @@
 {{> header }}
 
-<h1>리뷰 수정</h1>
-<!-- 값 불러오기 추가해야 함-->
-
 {{# review }}
-<div>
-    <div>
-        <form class="food-id" id="{{food.id}}">
-            <div class="review-id" id="{{id}}">
-                <label for="date">날짜</label>
-                <input type="date" id="date" value="{{date}}">
+<div class="p-5 mb-4 bg-white rounded-3">
+    <div class="px-3 mb-5 h2"><{{food.name}}> 리뷰 추가</div>
+    <div class="container text-center">
+        <form>
+            <div class="mb-3 form-group row food-id" id="{{food.id}}">
+                <div class="col-3 review-id" id="{{id}}"></div>
+                <label for="date" class="col-form-label col-1">날짜</label>
+                <div class="col-5">
+                    <input type="date" id="date" class="form-control" value="{{date}}">
+                </div>
+                <div class="col-3"></div>
             </div>
-            <div class="id" id="{{id}}">
-                <label for="title">제목</label>
-                <input type="text" id="title" value="{{title}}">
+            <div class="mb-3 form-group row">
+                <div class="col-3"></div>
+                <label for="title" class="form-label col-1">제목</label>
+                <div class="col-5">
+                    <input type="text" id="title" class="form-control" value="{{title}}">
+                </div>
+                <div class="col-3"></div>
             </div>
-            <div>
-                <label for="content">내용</label>
-                <input type="text" id="content" value="{{content}}">
+            <div class="mb-3 form-group row">
+                <div class="col-3"></div>
+                <label for="content" class="form-label col-1">내용</label>
+                <div class="col-5">
+                    <textarea type="text" id="content" class="form-control" rows="6">{{content}}</textarea>
+                </div>
+                <div class="col-3"></div>
             </div>
-            <div>
-                <label for="fasted">단식여부</label>
-                <input type="checkbox" id="fasted" {{#fasted}} checked {{/fasted}}>
+            <div class="mb-3 form-group row">
+                <div class="col-3"></div>
+                <label for="fasted" class="form-label col-1">단식 여부</label>
+                <div class="col-5">
+                    <div class="form-check text-start">
+                        <input type="checkbox" id="fasted" class="form-check-input"  {{#fasted}} checked {{/fasted}}>
+                        <label for="fasted" class="form-check-label text-start">성공</label>
+                    </div>
+                </div>
+                <div class="col-3"></div>
             </div>
         </form>
-        <a href="/food/{{food.id}}/reviews" role="button">취소</a>
-        <button type="button" class="btn-review-update">등록</button>
+        <div class="btn-group mt-2">
+            <button type="button" class="btn-review-update btn btn-dark btn-lg">등록</button>
+            <a href="/food/{{food.id}}/reviews" role="button" class="btn btn-secondary btn-lg">취소</a>
+        </div>
     </div>
 </div>
 {{/ review }}

@@ -32,7 +32,7 @@ public class FoodController {
         List<FoodResponse> foodListResponse = foodList.stream()
                 .map(FoodResponse::new)
                 .collect(Collectors.toList());
-        model.addAttribute("user", user); // 고치고 싶다...
+        model.addAttribute("user", user);
         model.addAttribute("foodList", foodListResponse);
         return "food";
     }
