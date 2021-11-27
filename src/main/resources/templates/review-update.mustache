@@ -2,7 +2,7 @@
 
 {{# review }}
 <div class="p-5 mb-4 bg-white rounded-3">
-    <div class="px-3 mb-5 h2"><{{food.name}}> 리뷰 추가</div>
+    <div class="px-3 mb-5 h2"><{{food.name}}> 리뷰 수정</div>
     <div class="container text-center">
         <form>
             <div class="mb-3 form-group row food-id" id="{{food.id}}">
@@ -42,7 +42,7 @@
             </div>
         </form>
         <div class="btn-group mt-2">
-            <button type="button" class="btn-review-update btn btn-dark btn-lg">등록</button>
+            <button type="button" class="btn-review-update btn btn-dark btn-lg">수정</button>
             <a href="/food/{{food.id}}/reviews" role="button" class="btn btn-secondary btn-lg">취소</a>
         </div>
     </div>

@@ -2,20 +2,19 @@
 
 <!-- food info -->
 <div class="p-5 mb-4 bg-white rounded-3">
-    <div class="row h4 m-0">
+    <div class="row h3 m-0">
         <div id="{{food.id}}" class="d-none food"></div>
-        <div class="col-1">🍴</div>
         <div class="col-4 text-start">
-            <span class="ml-5"><a href="/food/{{food.id}}/reviews" id="food-id" class="text-black" style="text-decoration: none">{{ food.name }}</a></span>
+            <span class="ml-5"><a href="/food/{{food.id}}/reviews" id="food-id" class="h1 text-black" style="text-decoration: none">{{ food.name }}</a></span>
         </div>
         <div class="col-3">
-            <span class="text-secondary float-right h4">{{ food.startDate }}~</span>
+            <div class="text-secondary float-right h4" style="padding-top: 0.7rem;">{{ food.startDate }}~</div>
+        </div>
+        <div class="col-3">
+            <div style="padding-top: 0.5rem;">🙅 + {{ food.dayCount }}일째</div>
         </div>
         <div class="col-2">
-            <span>🙅 + {{ food.dayCount }}일째</span>
-        </div>
-        <div class="col-2">
-            <span><a href="/food" class="lead text-black" style="text-decoration: none">⏪ Back</a></span>
+            <div style="padding-top: 0.5rem;"><a href="/food" class="h4 text-black" style="text-decoration: none"><span style="padding-right: 0.5rem;">⏪</span>Back</a></div>
         </div>
     </div>
 </div>
@@ -27,7 +26,7 @@
         <div class="p-5 m-0">
             <div class="row lead">
                 <span id="food-id" class="d-none">{{ id }}</span>
-                <div class="col-2 text-start h4">
+                <div class="col-3 text-start h4">
                     <span>{{ date }}</span>
                     {{# fasted }} <!-- 단식 성공 시 -->
                         <span class="ml-3">🙂</span>
@@ -39,8 +38,8 @@
                 <div class="col-4 text-start">
                     <span class="ml-3 h4">{{ title }}</span>
                 </div>
-                <div class="col-4"></div>
-                <div class="col-2">
+                <div class="col-3"></div>
+                <div class="col-2 h3">
                     <span><a href="/food/{{food.id}}/reviews/update/{{id}}" type="button" class="ms-4 text-black" style="text-decoration: none">✏️</a></span>
                     <span class="btn-review-delete ms-4" id="{{id}}" style="text-decoration: none; cursor: pointer;">❎</span>
                 </div>
