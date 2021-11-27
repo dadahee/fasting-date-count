@@ -44,11 +44,6 @@ public class ReviewController {
         model.addAttribute("food", food);
         model.addAttribute("user", user);
         model.addAttribute("reviewList",reviewList);
-
-//        model.addAttribute("foodId", foodId); // 거슬려..
-//        model.addAttribute("foodName", food.getName());
-//        model.addAttribute("userName", user.getName());
-//        model.addAttribute("userEmail", user.getEmail());
         return "review";
     }
 
@@ -72,13 +67,6 @@ public class ReviewController {
     ){
         Review review = reviewService.findById(reviewId);
         model.addAttribute("review", review);
-
-//        model.addAttribute("id", reviewId);
-//        model.addAttribute("foodId", foodId);
-//        model.addAttribute("date", review.getDate());
-//        model.addAttribute("title", review.getTitle());
-//        model.addAttribute("content", review.getContent());
-//        model.addAttribute("fasted", review.isFasted());
         return "review-update";
     }
 }
