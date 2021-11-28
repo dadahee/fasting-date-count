@@ -5,7 +5,6 @@ import com.term.fastingdatecounter.api.food.repository.FoodRepository;
 import com.term.fastingdatecounter.api.review.controller.dto.ReviewRequest;
 import com.term.fastingdatecounter.api.review.domain.Review;
 import com.term.fastingdatecounter.api.review.repository.ReviewRepository;
-import com.term.fastingdatecounter.api.user.controller.dto.dto.SessionUser;
 import com.term.fastingdatecounter.api.user.domain.User;
 import com.term.fastingdatecounter.api.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<Review> findByFoodId(Long foodId) {
-        return reviewRepository.findByFoodId(foodId);
+        return reviewRepository.findByFoodIdOrderByDateDesc(foodId);
     }
 
     @Transactional
