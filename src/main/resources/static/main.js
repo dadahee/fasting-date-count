@@ -135,7 +135,7 @@ const main = {
     },
     deleteReview : function () {
         const foodId = Number($(".food").attr("id"));
-        const reviewId = Number($(".btn-review-delete").attr("id"));
+        const reviewId = Number($(this).attr('id'));
 
         $.ajax({
             type: 'DELETE',
