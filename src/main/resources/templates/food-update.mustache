@@ -1,0 +1,35 @@
+{{> header }}
+
+
+{{# food}}
+<div class="p-5 mb-4 bg-white rounded-3">
+    <div class="px-3 mb-5 h2">음식 변경</div>
+    <div class="container text-center">
+        <form>
+            <div class="mb-3 form-group row">
+                <div class="col-3 food-id" id="{{id}}"></div>
+                <label for="name" class="col-form-label col-1">음식명</label>
+                <div class="col-5">
+                    <input type="text" id="name" class="form-control" value="{{name}}">
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="mb-5 form-group row">
+                <div class="col-3"></div>
+                <label for="start-date" class="form-label col-1">시작일</label>
+                <div class="col-5">
+                    <input type="date" id="start-date" class="form-control" value="{{startDate}}">
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </form>
+        <div class="btn-group">
+            <button type="button" class="btn-food-update btn btn-dark btn-lg">수정</button>
+            <a href="/food" role="button" class="btn btn-secondary btn-lg">취소</a>
+        </div>
+    </div>
+</div>
+{{/food}}
+
+
+{{> footer }}

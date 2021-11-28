@@ -3,12 +3,15 @@ package com.term.fastingdatecounter.api.food.controller.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
+@NoArgsConstructor
 @Getter
 public class FoodRequest {
 
@@ -31,5 +34,4 @@ public class FoodRequest {
                 .startDate(startDate)
                 .build();
     }
-
 }

@@ -38,8 +38,9 @@ public class ReviewRequest {
         this.fasted = review.isFasted();
     }
 
-    public Review toEntity(){
-        return Review.builder() // 유저 처리 필요
+    public Review toEntity(Food food){
+        return Review.builder()
+                .food(food)
                 .date(date)
                 .title(title)
                 .content(content)

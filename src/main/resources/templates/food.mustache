@@ -1,14 +1,41 @@
-<!DOCTYPE HTML>
-<html>
+{{> header }}
 
-<h2>음식 목록</h2>
 
-{{#userEmail}}
-    <div>{{ userEmail }}</div>
-{{/userEmail}}
+<div class="p-5 mb-4 bg-white rounded-3">
+    <span class="px-3 float-md-start text-left h2">{{ user.name }}님의 단식 목록</span>
+    <span class="px-3 nav nav-masthead justify-content-center float-md-end">
+        <div class="ms-3"><a class="nav-link btn btn-primary text-white" role="button" href="/food/save">+ Add</a></div>
+        <div class="ms-3"><a class="nav-link btn btn-light text-dark" role="button" href="/logout">Sign out</a></div>
+    </span>
+</div>
 
-<a href="/logout">logout</a>
 
 <!-- food table -->
+<div class="container bg-white rounded-3">
+{{# foodList}}
+    <div class="row h4 p-5 m-0">
+        <span id="food-id" class="d-none">{{ id }}</span>
+        <div class="col-4 text-start">
+            <span class="ml-1">{{ name }}</span>
+        </div>
+        <div class="col-3">
+            <span class="text-secondary float-right h4">{{ startDate }}~</span>
+        </div>
+        <div class="col-2">
+            <span>🙅 + {{ dayCount }}일째</span>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-2">
+            <span><a href="/food/{{id}}/reviews" id="food-id" class="text-black" style="text-decoration: none"
+                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="reviews">📆</a></span>
+            <span><a href="/food/update/{{id}}" class="ms-4 text-black" style="text-decoration: none"
+                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="edit">✏️</a></span>
+            <span class="btn-food-delete ms-4" id="{{id}}" style="text-decoration: none; cursor: pointer;"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="delete">🗑</span>
+        </div>
+    </div>
+<hr class="m-0">
+{{/foodList}}
+</div>
 
-</html>
+{{> footer }}

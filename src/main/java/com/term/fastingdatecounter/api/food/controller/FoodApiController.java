@@ -2,6 +2,7 @@ package com.term.fastingdatecounter.api.food.controller;
 
 import com.term.fastingdatecounter.api.food.controller.dto.FoodListResponse;
 import com.term.fastingdatecounter.api.food.controller.dto.FoodRequest;
+import com.term.fastingdatecounter.api.food.controller.dto.FoodResponse;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.food.service.FoodService;
 import com.term.fastingdatecounter.api.user.controller.dto.dto.SessionUser;
@@ -22,26 +23,35 @@ public class FoodApiController {
 
     private final FoodService foodService;
 
+    @Operation(summary = "음식 조회")
+    @GetMapping
+    public ResponseEntity<FoodListResponse> find(
+            @LoginUser SessionUser user
+    ){
+        List<Food> foodList = foodService.findByUserId(user.getId()); // find food list by session user id
+        return ResponseEntity.ok(new FoodListResponse(foodList));
+    }
+
 
     @Operation(summary = "음식 등록")
     @PostMapping
-    public ResponseEntity<Void> save(
+    public ResponseEntity<FoodResponse> save(
             @LoginUser SessionUser user,
             @RequestBody FoodRequest foodRequest
     ){
-        foodService.save(user.getId(), foodRequest);
-        return ResponseEntity.noContent().build();
+        Food food = foodService.save(user.getId(), foodRequest);
+        return ResponseEntity.ok(new FoodResponse(food));
     }
 
     @Operation(summary = "음식 수정")
     @PutMapping("/{foodId}")
-    public ResponseEntity<Void> update(
+    public ResponseEntity<FoodResponse> update(
             @LoginUser SessionUser user,
             @PathVariable(name = "foodId") Long foodId,
             @RequestBody FoodRequest foodRequest
     ){
-        foodService.update(user.getId(), foodId, foodRequest);
-        return ResponseEntity.noContent().build();
+        Food food = foodService.update(user.getId(), foodId, foodRequest);
+        return ResponseEntity.ok(new FoodResponse(food));
     }
 
     @Operation(summary = "음식 삭제")

@@ -47,4 +47,11 @@ public class Review extends BaseTimeEntity {
         this.content = content;
         this.fasted = fasted;
     }
+
+    public void update(Date date, String title, String content, boolean fasted) {
+        this.date = date;
+        this.title = title;
+        this.content = content;
+        this.fasted = fasted;
+    }
 }

@@ -1,0 +1,52 @@
+{{> header }}
+
+{{# review }}
+<div class="p-5 mb-4 bg-white rounded-3">
+    <div class="px-3 mb-5 h2"><{{food.name}}> 리뷰 수정</div>
+    <div class="container text-center">
+        <form>
+            <div class="mb-3 form-group row food-id" id="{{food.id}}">
+                <div class="col-3 review-id" id="{{id}}"></div>
+                <label for="date" class="col-form-label col-1">날짜</label>
+                <div class="col-5">
+                    <input type="date" id="date" class="form-control" value="{{date}}">
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="mb-3 form-group row">
+                <div class="col-3"></div>
+                <label for="title" class="form-label col-1">제목</label>
+                <div class="col-5">
+                    <input type="text" id="title" class="form-control" value="{{title}}">
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="mb-3 form-group row">
+                <div class="col-3"></div>
+                <label for="content" class="form-label col-1">내용</label>
+                <div class="col-5">
+                    <textarea type="text" id="content" class="form-control" rows="6">{{content}}</textarea>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="mb-3 form-group row">
+                <div class="col-3"></div>
+                <label for="fasted" class="form-label col-1">단식 여부</label>
+                <div class="col-5">
+                    <div class="form-check text-start">
+                        <input type="checkbox" id="fasted" class="form-check-input"  {{#fasted}} checked {{/fasted}}>
+                        <label for="fasted" class="form-check-label text-start">성공</label>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </form>
+        <div class="btn-group mt-2">
+            <button type="button" class="btn-review-update btn btn-dark btn-lg">수정</button>
+            <a href="/food/{{food.id}}/reviews" role="button" class="btn btn-secondary btn-lg">취소</a>
+        </div>
+    </div>
+</div>
+{{/ review }}
+
+{{> footer }}

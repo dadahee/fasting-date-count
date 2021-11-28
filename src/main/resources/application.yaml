@@ -6,6 +6,8 @@ spring:
   devtools:
     livereload:
       enabled: true
+    restart:
+      enabled: true
 
   ### execute schema.sql
   jpa:
