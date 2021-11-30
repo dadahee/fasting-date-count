@@ -29,7 +29,7 @@ pipeline {
     }
     stage('deploy end'){
       steps{
-        slackSend(message: """${env.JOB_NAME} #${env.BUILD_NUMBNER} End""", color: 'good', tokenCredentialId: 'slack-key')
+        slackSend(message: """${env.JOB_NAME} #${env.BUILD_NUMBER} End""", color: 'good', tokenCredentialId: 'slack-key')
       }
     }
   }
