@@ -33,7 +33,7 @@ pipeline {
       }
     }
     stage('send diff'){
-      step{
+      steps{
         script {
           def publisher = LastChanges.getLastChangesPublisher "PREVIOUS_REVISION", "SIDE", "LINE", true, true, "", "", "", "", ""
           publisher.publishLastChanges()
