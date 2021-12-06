@@ -5,30 +5,30 @@ import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.review.domain.Review;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
 public class ReviewRequest {
 
+    @PastOrPresent(message = "FUTURE_REVIEW_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
 
-    @NotBlank
-    @Size(min = 1, max = 100)
+    @NotBlank(message = "EMPTY_REVIEW_TITLE")
+    @Size(min = 1, max = 100, message = "TOO_LONG_REVIEW_TITLE")
     private String title;
 
-    @NotNull
-    @Size(min = 1, max = 500)
+    @NotNull(message = "EMPTY_REVIEW_CONTENT")
+    @Size(min = 1, max = 500, message = "TOO_LONG_REVIEW_CONTENT")
     private String content;
 
-    @NotNull
+    @NotNull(message = "EMPTY_REVIEW_FASTED")
     private boolean fasted;
 
     public ReviewRequest(Review review) {

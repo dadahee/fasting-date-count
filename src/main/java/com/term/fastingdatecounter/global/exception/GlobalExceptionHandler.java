@@ -42,11 +42,11 @@ public class GlobalExceptionHandler {
     }
 
     // others
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-        return ResponseEntity.internalServerError().body(response);
-    }
+//    @ExceptionHandler(Exception.class)
+//    protected ResponseEntity<ErrorResponse> handleException(Exception exception) {
+//        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+//        return ResponseEntity.internalServerError().body(response);
+//    }
 
 
 }

@@ -13,13 +13,25 @@ public enum ErrorCode {
     ACCESS_DENIED("G02", "No Authority : Access denied."),
     INTERNAL_SERVER_ERROR("G03", "Internal server error occurred"),
 
+    NOT_FOUND_USER("G04", "Unable to retrieve user information"),
+
 
     EMPTY_FOOD_NAME("F01", "Food name is empty"),
     TOO_LONG_FOOD_NAME("F02", "Food name is too long"),
     NOT_FOUND_FOOD("F03", "Food does not exist"),
-    NOT_FOUND_USER("F04", "Unable to retrieve user information"),
     FUTURE_FOOD_START_DATE("F05", "Future date is not allowed"),
-    TOO_LATE_FOOD_START_DATE("F06", "Start date must be earlier than review date")
+    TOO_LATE_FOOD_START_DATE("F06", "Start date must be earlier than review date"),
+
+
+    FUTURE_REVIEW_DATE("R01", "Future review date is not allowed"),
+    EMPTY_REVIEW_TITLE("R02", "Review title is empty"),
+    TOO_LONG_REVIEW_TITLE("R03", "Review title is too long"),
+    EMPTY_REVIEW_CONTENT("R04", "Review content is empty"),
+    TOO_LONG_REVIEW_CONTENT("R05", "Review content is too long"),
+    EMPTY_REVIEW_FASTED("R06", "Whether to fast or not fasting is empty"),
+    NOT_FOUND_REVIEW("R07", "Review does not exist"),
+    ALREADY_WRITTEN_REVIEW_DATE("R08", "Review has been written on that date"),
+    EARLIER_REVIEW_DATE("R09", "Review date is earlier than the start date of fasting")
     ;
 
     private final String code;

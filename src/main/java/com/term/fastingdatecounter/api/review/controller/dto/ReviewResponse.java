@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.api.review.domain.Review;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 public class ReviewResponse {
 
     private final Long id;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final Date date;
+    private final LocalDate date;
     private final String title;
     private final String content;
     private final boolean fasted;

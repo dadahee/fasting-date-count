@@ -5,14 +5,16 @@ import com.term.fastingdatecounter.global.domain.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
+@DynamicUpdate
 @Getter
 @Entity
 public class Review extends BaseTimeEntity {
@@ -26,8 +28,7 @@ public class Review extends BaseTimeEntity {
     private Food food;
 
     @Column(columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @Column(length = 100, nullable = false)
     private String title;
@@ -36,11 +37,11 @@ public class Review extends BaseTimeEntity {
     private String content;
 
     @ColumnDefault("1")
-    @Column(nullable = false)
+    @Column(columnDefinition = "BOOLEAN DEFAULT 1", nullable = false)
     private boolean fasted;
 
     @Builder
-    public Review(Food food, Date date, String title, String content, boolean fasted) {
+    public Review(Food food, LocalDate date, String title, String content, boolean fasted) {
         this.food = food;
         this.date = date;
         this.title = title;
@@ -48,7 +49,7 @@ public class Review extends BaseTimeEntity {
         this.fasted = fasted;
     }
 
-    public void update(Date date, String title, String content, boolean fasted) {
+    public void updateReview(LocalDate date, String title, String content, boolean fasted) {
         this.date = date;
         this.title = title;
         this.content = content;

@@ -2,16 +2,20 @@ package com.term.fastingdatecounter.api.review.service;
 
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.food.repository.FoodRepository;
+import com.term.fastingdatecounter.api.food.service.FoodService;
 import com.term.fastingdatecounter.api.review.controller.dto.ReviewRequest;
 import com.term.fastingdatecounter.api.review.domain.Review;
 import com.term.fastingdatecounter.api.review.repository.ReviewRepository;
 import com.term.fastingdatecounter.api.user.domain.User;
 import com.term.fastingdatecounter.api.user.repository.UserRepository;
+import com.term.fastingdatecounter.global.exception.ErrorCode;
+import com.term.fastingdatecounter.global.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.service.spi.ServiceException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,10 +26,11 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final FoodRepository foodRepository;
 
+    private final FoodService foodService;
+
     @Transactional(readOnly = true)
     public Review findById(Long id){
-        return reviewRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("리뷰를 찾을 수 없습니다"));
+        return findReviewById(id);
     }
 
     @Transactional(readOnly = true)
@@ -35,43 +40,87 @@ public class ReviewService {
 
     @Transactional
     public Review save(Long userId, Long foodId, ReviewRequest reviewRequest){
-        User user = findUserById(userId); // needs to validate
-        Food food = findFoodById(foodId); // needs to validate
+        // 유저, 음식 정보 불러오고, review 엔티티화
+        User user = findUserById(userId);
+        Food food = findFoodById(foodId);
         Review review = reviewRequest.toEntity(food);
+
+        // 유저 권한 확인 및 리뷰 등록일 유효성 체크
+        validateUserAuthority(user.getId(), food.getUser().getId());
+        validateReviewDate(food, reviewRequest.getDate());
+
+        // 리뷰 등록 및 음식의 단식일수 업데이트
         reviewRepository.save(review);
+        foodService.updateDayCount(food);
         return review;
     }
 
     @Transactional
     public Review update(Long userId, Long reviewId, ReviewRequest reviewRequest){
-        User user = findUserById(userId); // needs to implement validation
+        // 유저, 음식, 리뷰 불러오기
+        User user = findUserById(userId);
         Review review = findReviewById(reviewId);
-        review.update(reviewRequest.getDate(), reviewRequest.getTitle(), reviewRequest.getContent(), reviewRequest.isFasted());
+        Food food = findFoodById(review.getFood().getId());
+
+        // 유저 권한 확인 및 리뷰 등록일 유효성 체크
+        validateUserAuthority(user.getId(), food.getUser().getId());
+        validateReviewDate(food, reviewRequest.getDate());
+
+        // 리뷰 업데이트 및 음식의 단식일수 업데이트
+        review.updateReview(reviewRequest.getDate(), reviewRequest.getTitle(), reviewRequest.getContent(), reviewRequest.isFasted());
+        foodService.updateDayCount(food);
         return review;
     }
 
     @Transactional
     public void delete(Long userId, Long reviewId){
+        // 유저, 음식, 리뷰 불러오기
         User user = findUserById(userId);
         Review review = findReviewById(reviewId);
+        Food food = findFoodById(review.getFood().getId());
+
+        // 유저 권한 확인
+        validateUserAuthority(user.getId(), food.getUser().getId());
+
+        // 리뷰 업데이트 및 음식의 단식일수 업데이트
         reviewRepository.delete(review);
+        foodService.updateDayCount(food);
     }
 
     public User findUserById(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ServiceException("계정을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ServiceException(HttpStatus.BAD_REQUEST, ErrorCode.NOT_FOUND_USER));
         return user;
     }
 
     public Food findFoodById(Long foodId) {
         Food food = foodRepository.findById(foodId)
-                .orElseThrow(() -> new ServiceException("음식을 찾을 수 없습니다."));
+                .orElseThrow(() -> new ServiceException(HttpStatus.BAD_REQUEST, ErrorCode.NOT_FOUND_FOOD));
         return food;
     }
 
     public Review findReviewById(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new ServiceException("리뷰를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ServiceException(HttpStatus.BAD_REQUEST, ErrorCode.NOT_FOUND_REVIEW));
         return review;
+    }
+
+    private void validateUserAuthority(Long userId, Long extractedId) {
+        // 세션유저 정보 != 음식에 저장된 유저 정보일 경우 error
+        if (!userId.equals(extractedId)) {
+            throw new ServiceException(HttpStatus.FORBIDDEN, ErrorCode.ACCESS_DENIED);
+        }
+    }
+
+    public void validateReviewDate(Food food, LocalDate reviewDate){
+        // 음식의 해당 날짜에 이미 작성된 리뷰가 있으면
+        Long reviewCount = reviewRepository.countByFoodIdAndDate(food.getId(), reviewDate);
+        if (reviewCount > 0) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, ErrorCode.ALREADY_WRITTEN_REVIEW_DATE);
+        }
+        // 음식 단식 시작일 리뷰 날짜가 이르면
+        if (reviewDate.isBefore(food.getStartDate())) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST, ErrorCode.EARLIER_REVIEW_DATE);
+        }
     }
 }

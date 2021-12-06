@@ -3,24 +3,25 @@ package com.term.fastingdatecounter.api.food.controller.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import com.term.fastingdatecounter.api.user.domain.User;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Getter
 public class FoodRequest {
 
-    @NotBlank
-    @Size(min = 1, max = 50)
+    @NotBlank(message = "EMPTY_FOOD_NAME")
+    @Size(min = 1, max = 50, message = "TOO_LONG_FOOD_NAME")
     private String name;
 
+    @PastOrPresent(message = "FUTURE_FOOD_START_DATE")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date startDate;
+    private LocalDate startDate;
 
     public FoodRequest(Food food) {
         this.name = food.getName();

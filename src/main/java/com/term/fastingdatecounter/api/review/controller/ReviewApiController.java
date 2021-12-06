@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Tag(name = "리뷰(Review) API")
@@ -37,7 +38,7 @@ public class ReviewApiController {
     public ResponseEntity<Void> save(
             @LoginUser SessionUser user,
             @PathVariable(name = "foodId") Long foodId,
-            @RequestBody ReviewRequest reviewRequest
+            @Valid @RequestBody ReviewRequest reviewRequest
     ){
         reviewService.save(user.getId(), foodId, reviewRequest);
         return ResponseEntity.noContent().build();
@@ -48,7 +49,7 @@ public class ReviewApiController {
     public ResponseEntity<Void> update(
             @LoginUser SessionUser user,
             @PathVariable(name = "reviewId") Long reviewId,
-            @RequestBody ReviewRequest reviewRequest
+            @Valid @RequestBody ReviewRequest reviewRequest
     ){
         reviewService.update(user.getId(), reviewId, reviewRequest);
         return ResponseEntity.noContent().build();

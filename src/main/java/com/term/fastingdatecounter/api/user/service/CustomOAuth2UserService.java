@@ -47,11 +47,4 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .orElse(attributes.toEntity());
         return userRepository.save(user);
     }
-
-    @Transactional(readOnly = true)
-    public User findByEmail(String email) {
-        final User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ServiceException("잘못된 요청입니다"));
-        return user;
-    }
 }

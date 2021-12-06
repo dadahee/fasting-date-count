@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.api.food.domain.Food;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 public class FoodResponse {
@@ -13,9 +13,9 @@ public class FoodResponse {
     private final String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final Date startDate;
+    private final LocalDate startDate;
 
-    private final int dayCount;
+    private final Long dayCount;
 
     public FoodResponse(Food food) {
         this.id = food.getId();

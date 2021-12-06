@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Tag(name = "음식(Food) API")
@@ -37,7 +38,7 @@ public class FoodApiController {
     @PostMapping
     public ResponseEntity<FoodResponse> save(
             @LoginUser SessionUser user,
-            @RequestBody FoodRequest foodRequest
+            @Valid @RequestBody FoodRequest foodRequest
     ){
         Food food = foodService.save(user.getId(), foodRequest);
         return ResponseEntity.ok(new FoodResponse(food));
@@ -48,7 +49,7 @@ public class FoodApiController {
     public ResponseEntity<FoodResponse> update(
             @LoginUser SessionUser user,
             @PathVariable(name = "foodId") Long foodId,
-            @RequestBody FoodRequest foodRequest
+            @Valid @RequestBody FoodRequest foodRequest
     ){
         Food food = foodService.update(user.getId(), foodId, foodRequest);
         return ResponseEntity.ok(new FoodResponse(food));

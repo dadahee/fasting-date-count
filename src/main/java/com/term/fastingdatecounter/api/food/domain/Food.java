@@ -5,13 +5,15 @@ import com.term.fastingdatecounter.global.domain.BaseTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
+@DynamicUpdate
 @Getter
 @Entity
 public class Food extends BaseTimeEntity {
@@ -28,30 +30,36 @@ public class Food extends BaseTimeEntity {
     private String name;
 
     @Column(name = "start_date", columnDefinition = "DATE DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
+    private LocalDate startDate;
 
     @ColumnDefault("0")
     @Column(name = "day_count", nullable = false)
-    private int dayCount;
+    private Long dayCount;
 
     @Builder
-    public Food(User user, String name, Date startDate) {
+    public Food(User user, String name, LocalDate startDate) {
         this.user = user;
         this.name = name;
         this.startDate = startDate;
     }
 
     @Builder
-    public Food(User user, String name, Date startDate, int dayCount) {
+    public Food(User user, String name, LocalDate startDate, Long dayCount) {
         this.user = user;
         this.name = name;
         this.startDate = startDate;
         this.dayCount = dayCount;
     }
 
-    public void update(String name, Date startDate){
+    public void updateName(String name){
         this.name = name;
+    }
+
+    public void updateStartDate(LocalDate startDate){
         this.startDate = startDate;
+    }
+
+    public void updateDayCount(Long dayCount) {
+        this.dayCount = dayCount;
     }
 }
