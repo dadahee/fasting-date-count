@@ -24,9 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                         .logoutSuccessUrl("/") // 로그아웃 성공 시 이동 경로
+                        .invalidateHttpSession(true) // 로그아웃 이후 세션 전체 삭제
+                        .deleteCookies("JSESSIONID") // 쿠키도 삭제
                 .and()
                     .oauth2Login() // 로그인 기능에 대한 진입점
                         .userInfoEndpoint() // 로그인 성공 이후 사용자 정보를 가져올 때 설정
-                            .userService(customOAuth2UserService); // 로그인 성공 시 조치를 진행할 서비스 구현체
+                            .userService(customOAuth2UserService) // 로그인 성공 시 조치를 진행할 서비스 구현체
+                            .and()
+                        .defaultSuccessUrl("/food", true);
     }
 }
