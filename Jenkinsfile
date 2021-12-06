@@ -9,9 +9,6 @@ pipeline {
     stage('git pull') {
       steps {
         git url: 'https://github.com/dadahee/fasting-date-counter', branch: 'main'
-        sh '''
-        kubectl cp /root/fasting-date-counter/src/main/resources/application-deploy.yaml ${NODE_NAME}:/
-        '''
       }
     }
     stage('docker build and push') {
