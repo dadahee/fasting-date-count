@@ -11,8 +11,9 @@ pipeline {
         git url: 'https://github.com/dadahee/fasting-date-counter', branch: 'main'
         sh '''
         mkdir ~/client/
-        apt-get install sudo -y
-        sudo mount -t nfs 192.168.1.10:/root/server ~/client/
+        # apt-get install sudo -y
+        su
+        mount -t nfs 192.168.1.10:/root/server ~/client/
         '''
       }
     }
