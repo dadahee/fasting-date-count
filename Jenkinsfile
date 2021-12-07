@@ -11,6 +11,7 @@ pipeline {
         git url: 'https://github.com/dadahee/fasting-date-counter', branch: 'main'
         sh '''
         mkdir ~/client/
+        sudo passwd root
         su
         mount -t nfs 192.168.1.10:/root/server ~/client/
         '''
