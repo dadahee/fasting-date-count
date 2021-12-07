@@ -12,7 +12,6 @@ pipeline {
         sh '''
         mkdir ~/client/
         # apt-get install sudo -y
-        su
         mount -t nfs 192.168.1.10:/root/server ~/client/
         '''
       }
