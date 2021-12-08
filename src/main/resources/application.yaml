@@ -37,3 +37,10 @@ spring:
   ### Spring Security & OAuth2 setting file
   profiles:
     include: oauth
+
+  ### error stack trace
+  server.error:
+    include-exception: true
+    include-stacktrace: never # not include stacktrace contents in error message
+    whitelabel.enabled: false # not use white error page
+

@@ -18,7 +18,7 @@ CREATE TABLE `food` (
     `user_id`	bigint	NOT NULL,
     `name`	varchar(50)	NOT NULL,
     `start_date`	date	NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `day_count`	integer	NOT NULL	DEFAULT 0,
+    `day_count`	bigint	NOT NULL	DEFAULT 0,
     `created_at`	datetime	NOT NULL,
     `updated_at`	datetime	NOT NULL
 );
