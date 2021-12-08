@@ -21,11 +21,11 @@ public class ReviewRequest {
     private LocalDate date;
 
     @NotBlank(message = "EMPTY_REVIEW_TITLE")
-    @Size(min = 1, max = 100, message = "TOO_LONG_REVIEW_TITLE")
+    @Size(max = 100, message = "TOO_LONG_REVIEW_TITLE")
     private String title;
 
-    @NotNull(message = "EMPTY_REVIEW_CONTENT")
-    @Size(min = 1, max = 500, message = "TOO_LONG_REVIEW_CONTENT")
+    @NotBlank(message = "EMPTY_REVIEW_CONTENT")
+    @Size(max = 500, message = "TOO_LONG_REVIEW_CONTENT")
     private String content;
 
     @NotNull(message = "EMPTY_REVIEW_FASTED")

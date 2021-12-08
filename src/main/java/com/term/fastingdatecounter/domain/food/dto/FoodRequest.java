@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class FoodRequest {
 
     @NotBlank(message = "EMPTY_FOOD_NAME")
-    @Size(min = 1, max = 50, message = "TOO_LONG_FOOD_NAME")
+    @Size(max = 50, message = "TOO_LONG_FOOD_NAME")
     private String name;
 
     @PastOrPresent(message = "FUTURE_FOOD_START_DATE") // not working
