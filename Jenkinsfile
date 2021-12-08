@@ -13,7 +13,7 @@ pipeline {
         mkdir ~/client/
         su
         root
-        mount -t nfs 192.168.1.10:/root/server ~/client/
+        sudo mount -t nfs 192.168.1.10:/root/server ~/client/
         '''
       }
     }
