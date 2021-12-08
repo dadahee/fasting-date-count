@@ -11,6 +11,7 @@ pipeline {
         git url: 'https://github.com/dadahee/fasting-date-counter', branch: 'main'
         sh '''
         mkdir ~/client/
+        yum install sudo -y
         sudo -s
         apt-get update
         apt-get upgrade
