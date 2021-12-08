@@ -1,3 +1,10 @@
-spring.security.oauth2.client.registration.google.client-id=test-id
-spring.security.oauth2.client.registration.google.client-secret=test-secret
-spring.security.oauth2.client.registration.google.scope=profile,email
+### Spring Security & OAuth2
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-id
+            client-secret: test-secret
+            scope: profile,email

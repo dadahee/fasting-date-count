@@ -1,16 +1,17 @@
 package com.term.fastingdatecounter.domain.food.repository;
 
 import com.term.fastingdatecounter.domain.food.domain.Food;
+import com.term.fastingdatecounter.domain.review.repository.ReviewRepository;
 import com.term.fastingdatecounter.domain.user.domain.User;
+import com.term.fastingdatecounter.domain.user.repository.UserRepository;
 import com.term.fastingdatecounter.global.config.WithMockOAuthUser;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,33 +23,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@Transactional
+@DataJpaTest
 class FoodRepositoryTest {
 
     @Autowired
     FoodRepository foodRepository;
 
-    // 단위 테스트가 끝날 때마다 foodRepository 초기화
+    @Autowired
+    UserRepository userRepository;
+
+    private User user;
+
     @AfterEach
     public void cleanAll() {
         foodRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
-
-    public Food createFood() {
-        User user = User.builder()
-                .id(123L)
+    @BeforeEach
+    public void setUp() {
+        user = User.builder()
                 .name("test")
                 .email("test@test.com")
                 .build();
-        return Food.builder()
-                .user(user)
-                .name("음식")
-                .startDate(LocalDate.now())
-                .build();
+        userRepository.save(user);
     }
 
-    public Food createFoodOfUser(User user) {
+    public Food createFood() {
         return Food.builder()
                 .user(user)
                 .name("음식")
@@ -68,11 +70,13 @@ class FoodRepositoryTest {
 
         // then
         List<Food> foodList = foodRepository.findAll();
+        assertThat(foodList).isNotEmpty();
+
         Food result = foodList.get(0);
-        assertThat(food.getUser()).isEqualTo(result.getUser());
+        assertThat(food.getUser().getEmail()).isEqualTo(result.getUser().getEmail());
         assertThat(food.getName()).isEqualTo(result.getName());
         assertThat(food.getStartDate()).isEqualTo(result.getStartDate());
-        assertThat(result.getCreatedAt()).isAfter(now);
+        assertThat(result.getCreatedAt()).isAfterOrEqualTo(now);
     }
 
     @Test
@@ -84,8 +88,10 @@ class FoodRepositoryTest {
         LocalDateTime beforeUpdateDateTime = saveResult.getUpdatedAt();
 
         // when
-        saveResult.updateName("변경된 음식 이름");
-        saveResult.updateStartDate(LocalDate.MIN);
+        String newName = "변경된 음식 이름";
+        LocalDate newStartDate = LocalDate.MIN;
+        saveResult.updateName(newName);
+        saveResult.updateStartDate(newStartDate);
 
         // then
         //// 객체 존재 확인
@@ -93,26 +99,20 @@ class FoodRepositoryTest {
 
         //// 변경 확인
         Food updatedResult = foodRepository.findById(saveResult.getId()).get();
-        assertThat(updatedResult.getName()).isEqualTo("변경된 음식 이름");
-        assertThat(updatedResult.getStartDate()).isEqualTo(LocalDate.MIN);
+        assertThat(updatedResult.getName()).isEqualTo(newName);
+        assertThat(updatedResult.getStartDate()).isEqualTo(newStartDate);
 
         //// 수정일시 확인
-        assertThat(updatedResult.getUpdatedAt()).isAfter(beforeUpdateDateTime);
+        assertThat(updatedResult.getUpdatedAt()).isAfterOrEqualTo(beforeUpdateDateTime);
     }
 
     @Test
     @DisplayName("유저 아이디로 음식 목록 조회")
     public void findByUserId() {
         // given
-        User user = User.builder()
-                .id(123L)
-                .name("test")
-                .email("test@test.com")
-                .build();
-
-        Food food1 = createFoodOfUser(user);
-        Food food2 = createFoodOfUser(user);
-        Food food3 = createFoodOfUser(user);
+        Food food1 = createFood();
+        Food food2 = createFood();
+        Food food3 = createFood();
         Food saveResult1 = foodRepository.save(food1);
         Food saveResult2 = foodRepository.save(food2);
         Food saveResult3 = foodRepository.save(food3);
