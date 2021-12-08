@@ -20,8 +20,8 @@ public enum ErrorCode {
     EMPTY_FOOD_NAME("F01", "Food name is empty"),
     TOO_LONG_FOOD_NAME("F02", "Food name is too long"),
     NOT_FOUND_FOOD("F03", "Food does not exist"),
-    FUTURE_FOOD_START_DATE("F05", "Future date is not allowed"),
-    TOO_LATE_FOOD_START_DATE("F06", "Start date must be earlier than review date"),
+    FUTURE_FOOD_START_DATE("F04", "Future date is not allowed"),
+    TOO_LATE_FOOD_START_DATE("F05", "Start date must be earlier than review date"),
 
 
     FUTURE_REVIEW_DATE("R01", "Future review date is not allowed"),
