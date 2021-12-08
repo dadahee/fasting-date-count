@@ -2,6 +2,7 @@ package com.term.fastingdatecounter.global.exception;
 
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public enum ErrorCode {
     EMPTY_REVIEW_FASTED("R06", "Whether to fast or not fasting is empty"),
     NOT_FOUND_REVIEW("R07", "Review does not exist"),
     ALREADY_WRITTEN_REVIEW_DATE("R08", "Review has been written on that date"),
-    EARLIER_REVIEW_DATE("R09", "Review date is earlier than the start date of fasting")
+    EARLIER_REVIEW_DATE("R09", "Review date should be later than the start date of fasting")
     ;
 
     private final String code;
@@ -43,8 +44,11 @@ public enum ErrorCode {
     }
 
     public static ErrorCode of(String code) {
-        Map<String, String> codeInfo = Collections.unmodifiableMap(
-                Stream.of(values()).collect(Collectors.toMap(ErrorCode::getCode, ErrorCode::getMessage)));
-        return ErrorCode.valueOf(codeInfo.get(code));
+//        Map<String, String> codeInfo = Collections.unmodifiableMap(
+//                Stream.of(values()).collect(Collectors.toMap(ErrorCode::getCode, ErrorCode::getMessage)));
+//        return ErrorCode.valueOf(codeInfo.get(code));
+        Map<String, ErrorCode> codeMap = Collections.unmodifiableMap(
+                Stream.of(values()).collect(Collectors.toMap(ErrorCode::getCode, e -> e)));
+        return codeMap.get(code);
     }
 }

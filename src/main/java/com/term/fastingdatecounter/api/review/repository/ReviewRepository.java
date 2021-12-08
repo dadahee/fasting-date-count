@@ -5,11 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findByFoodIdOrderByDateDesc(Long foodId);
-    Long countByFoodIdAndDate(Long foodId, LocalDate date);
+    Optional<Review> findByFoodIdAndDate(Long foodId, LocalDate date);
 
     Long countByFoodIdAndFastedIsTrue(Long foodId);
 }

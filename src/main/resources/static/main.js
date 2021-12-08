@@ -44,12 +44,15 @@ const main = {
             url: '/api/food',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        }).done(function() {
-            alert('음식이 등록되었습니다.');
-            window.location.href = '/food';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            data: JSON.stringify(data),
+            success: function() {
+                alert('음식이 등록되었습니다.');
+                window.location.href = '/food';
+            },
+            error: function (error) {
+                console.log(error);
+                alert(error.responseJSON.message);
+            }
         });
     },
     updateFood : function () {
@@ -64,12 +67,15 @@ const main = {
             url: '/api/food/' + data.id,
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        }).done(function() {
-            alert('음식이 수정되었습니다.');
-            window.location.href = '/food';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            data: JSON.stringify(data),
+            success: function() {
+                alert('음식이 수정되었습니다.');
+                window.location.href = '/food';
+            },
+            error: function (error) {
+                console.log(error);
+                alert(error.responseJSON.message);
+            }
         });
     },
     deleteFood : function () {
@@ -79,12 +85,15 @@ const main = {
             type: 'DELETE',
             url: '/api/food/' + id,
             dataType: 'json',
-            contentType:'application/json; charset=utf-8'
-        }).done(function() {
-            alert('음식이 삭제되었습니다.');
-            window.location.href = '/food';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            contentType:'application/json; charset=utf-8',
+            success: function() {
+                alert('음식이 삭제되었습니다.');
+                window.location.href = '/food';
+            },
+            error: function (error) {
+                console.log(error);
+                alert(error.responseJSON.message);
+            }
         });
     },
 
@@ -102,12 +111,15 @@ const main = {
             url: '/api/food/' + data.foodId + '/reviews',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        }).done(function() {
-            alert('리뷰가 추가되었습니다.');
-            window.location.href = '/food/' + data.foodId + '/reviews';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            data: JSON.stringify(data),
+            success: function() {
+                alert('리뷰가 추가되었습니다.');
+                window.location.href = '/food/' + data.foodId + '/reviews';
+            },
+            error: function (error) {
+                console.log(error);
+                alert(error.responseJSON.message);
+            }
         });
     },
     updateReview : function () {
@@ -124,14 +136,18 @@ const main = {
             type: 'PUT',
             url: '/api/food/' + data.foodId + '/reviews/' + data.id,
             dataType: 'json',
-            contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
-        }).done(function() {
-            alert('리뷰가 수정되었습니다.');
-            window.location.href = '/food/' + data.foodId + '/reviews';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            success: function() {
+                alert('리뷰가 수정되었습니다.');
+                window.location.href = '/food/' + data.foodId + '/reviews';
+            },
+            error: function (error) {
+                console.log(error);
+                alert(error.responseJSON.message);
+            }
         });
+
     },
     deleteReview : function () {
         const foodId = Number($(".food").attr("id"));
@@ -141,12 +157,15 @@ const main = {
             type: 'DELETE',
             url: '/api/food/' + foodId + '/reviews/' + reviewId,
             dataType: 'json',
-            contentType:'application/json; charset=utf-8'
-        }).done(function() {
-            alert('리뷰가 삭제되었습니다.');
-            window.location.href = '/food/' + foodId + '/reviews';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            contentType: 'application/json; charset=utf-8',
+            success: function() {
+                alert('리뷰가 삭제되었습니다.');
+                window.location.href = '/food/' + foodId + '/reviews';
+            },
+            error: function(error) {
+                console.log(error);
+                alert(error.responseJSON.message);
+            }
         });
     }
 };

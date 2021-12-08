@@ -19,7 +19,7 @@ public class FoodRequest {
     @Size(min = 1, max = 50, message = "TOO_LONG_FOOD_NAME")
     private String name;
 
-    @PastOrPresent(message = "FUTURE_FOOD_START_DATE")
+    @PastOrPresent(message = "FUTURE_FOOD_START_DATE") // not working
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
