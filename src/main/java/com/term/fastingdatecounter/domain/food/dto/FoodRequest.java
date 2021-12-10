@@ -3,6 +3,7 @@ package com.term.fastingdatecounter.domain.food.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.domain.food.domain.Food;
 import com.term.fastingdatecounter.domain.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,9 +24,10 @@ public class FoodRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    public FoodRequest(Food food) {
-        this.name = food.getName();
-        this.startDate = food.getStartDate();
+    @Builder
+    public FoodRequest(String name, LocalDate startDate) {
+        this.name = name;
+        this.startDate = startDate;
     }
 
     public Food toEntity(User user) {

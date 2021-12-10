@@ -27,7 +27,8 @@ public class FoodService {
 
     @Transactional(readOnly = true)
     public List<Food> findByUserId(Long userId) {
-        return foodRepository.findByUserId(userId);
+        User user = findUserById(userId);
+        return foodRepository.findByUserId(user.getId());
     }
 
     @Transactional(readOnly = true)
@@ -84,7 +85,7 @@ public class FoodService {
 
     private void validateUserAuthority(Long userId, Long extractedId) {
         // 세션유저 정보 != 음식에 저장된 유저 정보일 경우 error
-        if (!userId.equals(extractedId)) {
+        if (userId != extractedId) {
             throw new ServiceException(HttpStatus.FORBIDDEN, ErrorCode.ACCESS_DENIED);
         }
     }

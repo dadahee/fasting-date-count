@@ -37,13 +37,13 @@ public class Food extends BaseTimeEntity {
     private Long dayCount;
 
     @Builder
-    public Food(User user, String name, LocalDate startDate) {
+    public Food(Long id, User user, String name, LocalDate startDate) {
+        this.id = id;
         this.user = user;
         this.name = name;
         this.startDate = startDate;
     }
 
-    @Builder
     public Food(User user, String name, LocalDate startDate, Long dayCount) {
         this.user = user;
         this.name = name;

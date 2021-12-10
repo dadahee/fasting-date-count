@@ -1,15 +1,12 @@
 package com.term.fastingdatecounter.domain.food.repository;
 
 import com.term.fastingdatecounter.domain.food.domain.Food;
-import com.term.fastingdatecounter.domain.review.repository.ReviewRepository;
 import com.term.fastingdatecounter.domain.user.domain.User;
 import com.term.fastingdatecounter.domain.user.repository.UserRepository;
-import com.term.fastingdatecounter.global.config.WithMockOAuthUser;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ExtendWith(SpringExtension.class)
-@Transactional
 @DataJpaTest
 class FoodRepositoryTest {
 
@@ -59,7 +55,7 @@ class FoodRepositoryTest {
     }
 
     @Test
-    @DisplayName("음식 저장, 생성일시 (성공)")
+    @DisplayName("음식 저장, 생성일시 - 성공")
     public void save() {
         // given
         LocalDateTime now = LocalDateTime.now();
@@ -80,7 +76,7 @@ class FoodRepositoryTest {
     }
 
     @Test
-    @DisplayName("음식 수정 후 조회 시 변경된 Food 조회")
+    @DisplayName("음식 수정 후 조회 시 변경된 Food 조회 - 성공")
     public void update() {
         // given
         Food food = createFood();
@@ -107,7 +103,7 @@ class FoodRepositoryTest {
     }
 
     @Test
-    @DisplayName("유저 아이디로 음식 목록 조회")
+    @DisplayName("유저 아이디로 음식 목록 조회 - 성공")
     public void findByUserId() {
         // given
         Food food1 = createFood();
