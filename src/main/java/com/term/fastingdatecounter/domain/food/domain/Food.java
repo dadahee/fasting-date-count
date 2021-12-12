@@ -10,7 +10,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @DynamicUpdate
@@ -37,14 +36,8 @@ public class Food extends BaseTimeEntity {
     private Long dayCount;
 
     @Builder
-    public Food(Long id, User user, String name, LocalDate startDate) {
+    public Food(Long id, User user, String name, LocalDate startDate, Long dayCount) {
         this.id = id;
-        this.user = user;
-        this.name = name;
-        this.startDate = startDate;
-    }
-
-    public Food(User user, String name, LocalDate startDate, Long dayCount) {
         this.user = user;
         this.name = name;
         this.startDate = startDate;

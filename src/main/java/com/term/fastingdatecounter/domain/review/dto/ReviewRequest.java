@@ -3,6 +3,7 @@ package com.term.fastingdatecounter.domain.review.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.domain.food.domain.Food;
 import com.term.fastingdatecounter.domain.review.domain.Review;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,11 +32,12 @@ public class ReviewRequest {
     @NotNull(message = "EMPTY_REVIEW_FASTED")
     private boolean fasted;
 
-    public ReviewRequest(Review review) {
-        this.date = review.getDate();
-        this.title = review.getTitle();
-        this.content = review.getContent();
-        this.fasted = review.isFasted();
+    @Builder
+    public ReviewRequest(LocalDate date, String title, String content, boolean fasted) {
+        this.date = date;
+        this.title = title;
+        this.content = content;
+        this.fasted = fasted;
     }
 
     public Review toEntity(Food food){

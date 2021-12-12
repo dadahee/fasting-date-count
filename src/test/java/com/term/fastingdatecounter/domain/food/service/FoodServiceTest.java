@@ -4,7 +4,9 @@ import com.term.fastingdatecounter.domain.food.domain.Food;
 import com.term.fastingdatecounter.domain.food.dto.FoodRequest;
 import com.term.fastingdatecounter.domain.food.repository.FoodRepository;
 import com.term.fastingdatecounter.domain.review.domain.Review;
+import com.term.fastingdatecounter.domain.review.dto.ReviewRequest;
 import com.term.fastingdatecounter.domain.review.repository.ReviewRepository;
+import com.term.fastingdatecounter.domain.review.service.ReviewService;
 import com.term.fastingdatecounter.domain.user.domain.User;
 import com.term.fastingdatecounter.domain.user.repository.UserRepository;
 import com.term.fastingdatecounter.global.exception.ServiceException;
@@ -16,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -23,15 +26,22 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(SpringExtension.class)
+@WebAppConfiguration
 @AutoConfigureMockMvc
 class FoodServiceTest {
 
     @InjectMocks
     private FoodService foodService;
+
+    @InjectMocks
+    private ReviewService reviewService;
 
     @Mock
     private FoodRepository foodRepository;
@@ -96,6 +106,7 @@ class FoodServiceTest {
     @Test
     void findById() {
         // given
+        //// 테스트 음식 데이터
         Long foodId = 111L;
         Food food = createFood(user, foodId);
         given(foodRepository.findById(foodId)).willReturn(Optional.of(food));
@@ -116,6 +127,7 @@ class FoodServiceTest {
     @Test
     void findByIdFailedWhenNotExistInterview() {
         // given
+        //// 존재하지 않는 음식
         given(foodRepository.findById(anyLong())).willReturn(Optional.empty());
 
         // when
@@ -131,18 +143,20 @@ class FoodServiceTest {
     @Test
     void save() {
         // given
-        Long foodId = 10L;
-        Food food = createFood(user, foodId);
-        given(foodRepository.findById(foodId)).willReturn(Optional.of(food));
+        //// 테스트 음식 데이터
+        FoodRequest foodRequest = createFoodRequest();
+
+        //// 존재하는 유저
+        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
 
         // when
-        Food result = foodService.findById(foodId);
+        Food result = foodService.save(user.getId(), foodRequest);
 
         // then
         assertAll(
-                () -> assertThat(result.getUser().getId()).isEqualTo(food.getUser().getId()),
-                () -> assertThat(result.getName()).isEqualTo(food.getName()),
-                () -> assertThat(result.getStartDate()).isEqualTo(food.getStartDate())
+                () -> assertThat(result.getUser().getId()).isEqualTo(user.getId()),
+                () -> assertThat(result.getName()).isEqualTo(foodRequest.getName()),
+                () -> assertThat(result.getStartDate()).isEqualTo(foodRequest.getStartDate())
         );
     }
 
@@ -267,10 +281,6 @@ class FoodServiceTest {
                 .isEqualTo("G02");
     }
 
-    /**
-     * needs to implement below !!!
-     */
-
     @DisplayName("음식 수정 - 실패(단식시작일이 리뷰날짜보다 늦음)")
     @Test
     void updateFailedWhenStartDateIsInvalid() {
@@ -280,6 +290,38 @@ class FoodServiceTest {
         FoodRequest foodRequest = createFoodRequest();
         Food food = createFood(user, foodId);
 
+        //// 테스트 리뷰 데이터
+        Long reviewId = 3L;
+        Review review = createReview(reviewId, food, food.getStartDate().minusDays(3));
+
+        //// 존재하는 사용자
+        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+
+        //// 존재하는 음식
+        given(foodRepository.findById(food.getId())).willReturn(Optional.of(food));
+
+        //// 존재하는 리뷰
+        given(reviewRepository.findByFoodIdOrderByDateDesc(foodId)).willReturn(Arrays.asList(review));
+        given(reviewRepository.findById(reviewId)).willReturn(Optional.of(review));
+
+        // when
+        // then
+        //// 발생한 에러가 F05(TOO_LATE_FOOD_START_DATE)와 매치
+        assertThatThrownBy(() -> foodService.update(user.getId(), foodId, foodRequest))
+                .isInstanceOf(ServiceException.class)
+                .extracting(e -> ((ServiceException) e).getCode())
+                .isEqualTo("F05");
+
+    }
+
+    @DisplayName("음식 삭제 - 성공")
+    @Test
+    void delete() {
+        // given
+        //// 테스트 음식 데이터
+        Long foodId = 1L;
+        Food food = createFood(user, foodId);
+
         //// 존재하는 사용자
         given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
 
@@ -287,48 +329,103 @@ class FoodServiceTest {
         given(foodRepository.findById(food.getId())).willReturn(Optional.of(food));
 
         // when
+        foodService.delete(user.getId(), foodId);
+
         // then
-
-        // todo
-
-    }
-
-    @DisplayName("음식 삭제 - 성공")
-    @Test
-    void delete() {
+        then(foodRepository)
+                .should(times(1))
+                .findById(foodId);
+        then(foodRepository)
+                .should(times(1))
+                .delete(any(Food.class));
     }
 
     @DisplayName("음식 삭제 - 실패(존재하지 않는 유저)")
     @Test
     void deleteFailedWhenNotExistUser() {
+        // given
+        //// 테스트 음식 데이터
+        Long foodId = 1L;
+        Food food = createFood(user, foodId);
+
+        //// 존재하지 않는 사용자
+        given(userRepository.findById(user.getId())).willReturn(Optional.empty());
+
+        //// 존재하는 음식
+        given(foodRepository.findById(food.getId())).willReturn(Optional.of(food));
+
+        // when
+        // then
+        assertThatThrownBy(() -> foodService.delete(user.getId(), foodId))
+                .isInstanceOf(ServiceException.class)
+                .extracting(e -> ((ServiceException) e).getCode())
+                .isEqualTo("G04");
     }
 
     @DisplayName("음식 삭제 - 실패(존재하지 않는 음식)")
     @Test
     void deleteFailedWhenNotExistFood() {
+        // given
+        //// 테스트 음식 데이터
+        Long foodId = 1L;
+        Food food = createFood(user, foodId);
+
+        //// 존재하는 사용자
+        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+
+        //// 존재하는 음식
+        given(foodRepository.findById(food.getId())).willReturn(Optional.empty());
+
+        // when
+        // then
+        assertThatThrownBy(() -> foodService.delete(user.getId(), foodId))
+                .isInstanceOf(ServiceException.class)
+                .extracting(e -> ((ServiceException) e).getCode())
+                .isEqualTo("F03");
     }
 
     @DisplayName("음식 삭제 - 실패(작성자가 아닌 유저)")
     @Test
     void deleteFailedWhenUserWithoutAuthority() {
+        // given
+        //// 테스트 음식 데이터
+        Long foodId = 1L;
+        Food food = createFood(user, foodId);
+
+        //// 테스트 유저(작성자가 아닌 유저) 데이터
+        User anotherUser = User.builder()
+                .id(12321L)
+                .name("foreigner")
+                .email("foreigner@test.com")
+                .build();
+
+        //// 존재하는 사용자
+        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+        given(userRepository.findById(anotherUser.getId())).willReturn(Optional.of(anotherUser));
+
+        //// 존재하는 음식
+        given(foodRepository.findById(food.getId())).willReturn(Optional.of(food));
+
+        // when
+        // then
+        assertThatThrownBy(() -> foodService.delete(anotherUser.getId(), foodId))
+                .isInstanceOf(ServiceException.class)
+                .extracting(e -> ((ServiceException) e).getCode())
+                .isEqualTo("G02");
     }
 
-    @DisplayName("단식일수 변경 확인 : 리뷰 등록")
-    @Test
-    void updateDayCountWhenReviewSave() {
+
+    private Review createReview(Long id, Food food, LocalDate date) {
+        return Review.builder()
+                .id(id)
+                .food(food)
+                .date(date)
+                .title("review title")
+                .content("review content")
+                .build();
     }
 
-    @DisplayName("단식일수 변경 확인 : 리뷰 수정")
-    @Test
-    void updateDayCountWhenReviewUpdate() {
-    }
-
-    @DisplayName("단식일수 변경 확인 : 리뷰 삭제")
-    @Test
-    void updateDayCountWhenReviewDelete() {
-    }
-
-    Food createFood(User author, Long id) {
+    private Food createFood(User author, Long id) {
         return Food.builder()
                 .id(id)
                 .user(author)
@@ -337,11 +434,12 @@ class FoodServiceTest {
                 .build();
     }
 
-    FoodRequest createFoodRequest() {
+    private FoodRequest createFoodRequest() {
         return FoodRequest.builder()
                 .name("food")
                 .startDate(LocalDate.of(2021, 12, 1))
                 .build();
 
     }
+
 }
