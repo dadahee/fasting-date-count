@@ -121,8 +121,7 @@ class FoodApiControllerTest {
         ResultActions result = mvc.perform(get(url));
 
         // then
-        result.andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/oauth2/authorization/google"));
+        result.andExpect(status().is3xxRedirection());
     }
 
     @Test
@@ -172,8 +171,7 @@ class FoodApiControllerTest {
                         .writeValueAsString(request)));
 
         // then
-        result.andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/oauth2/authorization/google"));
+        result.andExpect(status().is3xxRedirection());
     }
 
     @Test
