@@ -3,7 +3,6 @@ package com.term.fastingdatecounter.domain.review.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.term.fastingdatecounter.domain.food.domain.Food;
-import com.term.fastingdatecounter.domain.food.dto.FoodRequest;
 import com.term.fastingdatecounter.domain.food.repository.FoodRepository;
 import com.term.fastingdatecounter.domain.review.domain.Review;
 import com.term.fastingdatecounter.domain.review.dto.ReviewRequest;
@@ -91,7 +90,7 @@ class ReviewApiControllerTest {
 
     private ReviewRequest createReviewRequest() {
         return ReviewRequest.builder()
-                .date(LocalDate.now())
+                .date(LocalDate.now().minusDays(3))
                 .title("review title")
                 .content("review content")
                 .fasted(true)
@@ -180,7 +179,7 @@ class ReviewApiControllerTest {
         // given
         String url = PREFIX_URI;
 
-        //// test food data
+        //// test review data
         ReviewRequest request = createReviewRequest();
 
         // when
@@ -212,7 +211,7 @@ class ReviewApiControllerTest {
         // given
         String url = PREFIX_URI;
 
-        //// test food data
+        //// test review data
         ReviewRequest request = createReviewRequest();
 
         // when
@@ -241,7 +240,7 @@ class ReviewApiControllerTest {
         session.setAttribute("user", new SessionUser(user));
 
 
-        //// test food data
+        //// test review data
         ReviewRequest request = createReviewRequest();
 
         // when
@@ -269,14 +268,14 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 성공")
     void updateReview() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
         //// make url
         String url = PREFIX_URI + "/" + saveReview.getId();
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(LocalDate.now().minusDays(1))
                 .title("review title updated")
@@ -312,14 +311,14 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 실패(로그인 X)")
     void updateReviewFailedWhenUserIsUnAuthenticated() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
         //// make url
         String url = PREFIX_URI + "/" + saveReview.getId();
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(LocalDate.now().minusDays(1))
                 .title("review title updated")
@@ -342,7 +341,7 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 실패(작성자와 불일치)")
     void updateReviewFailedWhenUserWithoutAuthority() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
@@ -356,7 +355,7 @@ class ReviewApiControllerTest {
                 .build());
         session.setAttribute("user", new SessionUser(user));
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(LocalDate.now().minusDays(1))
                 .title("review title updated")
@@ -387,14 +386,14 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 실패(존재하지 않는 리뷰)")
     void updateReviewFailedWhenNotExistReview() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
         //// make url
         String url = PREFIX_URI + "/1234321";
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(LocalDate.now().minusDays(1))
                 .title("review title updated")
@@ -425,14 +424,14 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 실패(존재하지 않는 음식)")
     void updateReviewFailedWhenNotExistFood() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
         //// make url
         String url = "/api/food/987654/reviews/" + saveReview.getId();
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(LocalDate.now().minusDays(1))
                 .title("review title updated")
@@ -463,14 +462,14 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 실패(날짜가 단식시작일보다 빠름)")
     void updateReviewFailedWhenDateIsInvalid() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
         //// make url
         String url = PREFIX_URI + "/" + saveReview.getId();
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(food.getStartDate().minusDays(3))
                 .title("review title updated")
@@ -501,14 +500,14 @@ class ReviewApiControllerTest {
     @DisplayName("리뷰 수정 - 실패(미래 날짜)")
     void updateReviewFailedWhenDateIsFuture() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
         //// make url
         String url = PREFIX_URI + "/" + saveReview.getId();
 
-        //// test food data for testing update feature
+        //// test review data for testing update feature
         ReviewRequest updateRequest = ReviewRequest.builder()
                 .date(LocalDate.now().plusDays(10))
                 .title("review title updated")
@@ -536,10 +535,57 @@ class ReviewApiControllerTest {
     }
 
     @Test
+    @DisplayName("리뷰 수정 - 실패(이미 존재)")
+    void updateReviewFailedWhenDateConflicts() throws Exception {
+        // given
+        //// other review data
+        ReviewRequest otherRequest = ReviewRequest.builder()
+                .date(LocalDate.now())
+                .title("other review title")
+                .content("other review content")
+                .fasted(false)
+                .build();
+        Review otherReview = reviewRepository.save(otherRequest.toEntity(food));
+
+        //// test review data in advance
+        ReviewRequest saveRequest = createReviewRequest();
+        Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
+
+        //// make url
+        String url = PREFIX_URI + "/" + saveReview.getId();
+
+        //// test review data for testing update feature
+        ReviewRequest updateRequest = ReviewRequest.builder()
+                .date(LocalDate.now())
+                .title("review title updated")
+                .content("review title updated")
+                .fasted(false)
+                .build();
+
+        // when
+        ResultActions result = mvc.perform(put(url)
+                .session(session)
+                .with(oauth2Login()
+                        .attributes(attributes -> {
+                            attributes.put("id", user.getId());
+                            attributes.put("name", user.getName());
+                            attributes.put("email", user.getEmail());
+                        }))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper()
+                        .registerModule(new JavaTimeModule())
+                        .writeValueAsString(updateRequest)));
+
+        // then
+        result.andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("R08"));
+    }
+
+    @Test
     @DisplayName("리뷰 삭제")
     void deleteReview() throws Exception {
         // given
-        //// test food data in advance
+        //// test review data in advance
         ReviewRequest saveRequest = createReviewRequest();
         Review saveReview = reviewRepository.save(saveRequest.toEntity(food));
 
