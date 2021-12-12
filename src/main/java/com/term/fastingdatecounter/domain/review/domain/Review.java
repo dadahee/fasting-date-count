@@ -36,7 +36,7 @@ public class Review extends BaseTimeEntity {
     private String content;
 
     @ColumnDefault("1")
-    @Column(columnDefinition = "BOOLEAN DEFAULT 1", nullable = false)
+    @Column(nullable = false)
     private boolean fasted;
 
     @Builder

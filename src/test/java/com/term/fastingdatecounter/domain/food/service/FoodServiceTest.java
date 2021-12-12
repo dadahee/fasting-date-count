@@ -40,9 +40,6 @@ class FoodServiceTest {
     @InjectMocks
     private FoodService foodService;
 
-    @InjectMocks
-    private ReviewService reviewService;
-
     @Mock
     private FoodRepository foodRepository;
 
@@ -52,7 +49,7 @@ class FoodServiceTest {
     @Mock
     private ReviewRepository reviewRepository;
 
-    User user;
+    private User user;
 
     @BeforeEach
     void setUp() {
@@ -61,6 +58,33 @@ class FoodServiceTest {
                 .name("test")
                 .email("test@test.com")
                 .build();
+    }
+
+    private Review createReview(Long id, Food food, LocalDate date) {
+        return Review.builder()
+                .id(id)
+                .food(food)
+                .date(date)
+                .title("review title")
+                .content("review content")
+                .build();
+    }
+
+    private Food createFood(User author, Long id) {
+        return Food.builder()
+                .id(id)
+                .user(author)
+                .name("food")
+                .startDate(LocalDate.of(2021, 12, 1))
+                .build();
+    }
+
+    private FoodRequest createFoodRequest() {
+        return FoodRequest.builder()
+                .name("food")
+                .startDate(LocalDate.of(2021, 12, 1))
+                .build();
+
     }
 
     @DisplayName("음식 목록 조회 - 성공")
@@ -412,34 +436,6 @@ class FoodServiceTest {
                 .isInstanceOf(ServiceException.class)
                 .extracting(e -> ((ServiceException) e).getCode())
                 .isEqualTo("G02");
-    }
-
-
-    private Review createReview(Long id, Food food, LocalDate date) {
-        return Review.builder()
-                .id(id)
-                .food(food)
-                .date(date)
-                .title("review title")
-                .content("review content")
-                .build();
-    }
-
-    private Food createFood(User author, Long id) {
-        return Food.builder()
-                .id(id)
-                .user(author)
-                .name("food")
-                .startDate(LocalDate.of(2021, 12, 1))
-                .build();
-    }
-
-    private FoodRequest createFoodRequest() {
-        return FoodRequest.builder()
-                .name("food")
-                .startDate(LocalDate.of(2021, 12, 1))
-                .build();
-
     }
 
 }

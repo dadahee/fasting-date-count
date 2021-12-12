@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,21 +23,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FoodRepositoryTest {
 
     @Autowired
-    FoodRepository foodRepository;
+    private FoodRepository foodRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     private User user;
 
     @AfterEach
-    public void cleanAll() {
+    void cleanAll() {
         foodRepository.deleteAll();
         userRepository.deleteAll();
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         user = User.builder()
                 .name("test")
                 .email("test@test.com")
@@ -46,7 +45,7 @@ class FoodRepositoryTest {
         userRepository.save(user);
     }
 
-    public Food createFood() {
+    private Food createFood() {
         return Food.builder()
                 .user(user)
                 .name("음식")
@@ -55,8 +54,8 @@ class FoodRepositoryTest {
     }
 
     @Test
-    @DisplayName("음식 저장, 생성일시 - 성공")
-    public void save() {
+    @DisplayName("음식 등록 - 성공")
+    void save() {
         // given
         LocalDateTime now = LocalDateTime.now();
         Food food = createFood();
@@ -76,16 +75,16 @@ class FoodRepositoryTest {
     }
 
     @Test
-    @DisplayName("음식 수정 후 조회 시 변경된 Food 조회 - 성공")
-    public void update() {
+    @DisplayName("음식 수정 후 조회 시 변경된 음식 조회 - 성공")
+    void update() {
         // given
         Food food = createFood();
         Food saveResult = foodRepository.save(food);
         LocalDateTime beforeUpdateDateTime = saveResult.getUpdatedAt();
-
-        // when
         String newName = "변경된 음식 이름";
         LocalDate newStartDate = LocalDate.MIN;
+
+        // when
         saveResult.updateName(newName);
         saveResult.updateStartDate(newStartDate);
 
@@ -104,7 +103,7 @@ class FoodRepositoryTest {
 
     @Test
     @DisplayName("유저 아이디로 음식 목록 조회 - 성공")
-    public void findByUserId() {
+    void findByUserId() {
         // given
         Food food1 = createFood();
         Food food2 = createFood();
@@ -129,7 +128,7 @@ class FoodRepositoryTest {
 
     @Test
     @DisplayName("음식 아이디로 조회")
-    public void findById() {
+    void findById() {
         // given
         Food food = createFood();
         Food saveResult = foodRepository.save(food);
@@ -138,7 +137,6 @@ class FoodRepositoryTest {
         Optional<Food> findResult = foodRepository.findById(saveResult.getId());
 
         // then
-        assertThat(findResult).isPresent();
-        assertThat(findResult).containsSame(saveResult);
+        assertThat(findResult).contains(saveResult);
     }
 }
