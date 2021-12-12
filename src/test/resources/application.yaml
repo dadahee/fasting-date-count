@@ -8,3 +8,4 @@ spring:
             client-id: test-id
             client-secret: test-secret
             scope: profile,email
+

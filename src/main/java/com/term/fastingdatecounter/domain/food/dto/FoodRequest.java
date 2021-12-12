@@ -6,6 +6,7 @@ import com.term.fastingdatecounter.domain.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
@@ -21,7 +22,7 @@ public class FoodRequest {
     private String name;
 
     @PastOrPresent(message = "FUTURE_FOOD_START_DATE") // not working
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @Builder

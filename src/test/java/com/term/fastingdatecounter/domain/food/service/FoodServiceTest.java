@@ -10,6 +10,7 @@ import com.term.fastingdatecounter.domain.review.service.ReviewService;
 import com.term.fastingdatecounter.domain.user.domain.User;
 import com.term.fastingdatecounter.domain.user.repository.UserRepository;
 import com.term.fastingdatecounter.global.exception.ServiceException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,13 @@ class FoodServiceTest {
                 .name("test")
                 .email("test@test.com")
                 .build();
+    }
+
+    @AfterEach
+    void cleanAll() {
+        foodRepository.deleteAll();
+        userRepository.deleteAll();
+        reviewRepository.deleteAll();
     }
 
     private Review createReview(Long id, Food food, LocalDate date) {

@@ -6,6 +6,7 @@ import com.term.fastingdatecounter.domain.review.domain.Review;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 public class ReviewRequest {
 
     @PastOrPresent(message = "FUTURE_REVIEW_DATE") // not working
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @NotBlank(message = "EMPTY_REVIEW_TITLE")

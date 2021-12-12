@@ -13,7 +13,7 @@ public class FoodResponse {
     private final Long id;
     private final String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private final LocalDate startDate;
 
     private final Long dayCount;

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class ReviewResponse {
 
     private final Long id;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private final LocalDate date;
     private final String title;
     private final String content;
