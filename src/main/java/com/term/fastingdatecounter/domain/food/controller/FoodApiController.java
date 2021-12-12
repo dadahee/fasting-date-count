@@ -12,8 +12,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @Tag(name = "음식(Food) API")
@@ -37,11 +39,13 @@ public class FoodApiController {
     @Operation(summary = "음식 등록")
     @PostMapping
     public ResponseEntity<FoodResponse> save(
+            UriComponentsBuilder uriBuilder,
             @LoginUser SessionUser user,
             @Valid @RequestBody FoodRequest foodRequest
     ){
+        URI uri = uriBuilder.path("/api/food").build().toUri();
         Food food = foodService.save(user.getId(), foodRequest);
-        return ResponseEntity.ok(new FoodResponse(food));
+        return ResponseEntity.created(uri).body(new FoodResponse(food));
     }
 
     @Operation(summary = "음식 수정")

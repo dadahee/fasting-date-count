@@ -149,7 +149,7 @@ class FoodApiControllerTest {
                         .writeValueAsString(request)));
 
         // then
-        result.andExpect(status().isOk())
+        result.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(request.getName()))
                 .andExpect(jsonPath("$.startDate")
                         .value(request.getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
