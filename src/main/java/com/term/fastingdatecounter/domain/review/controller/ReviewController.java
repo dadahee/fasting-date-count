@@ -36,7 +36,7 @@ public class ReviewController {
             @PathVariable(name = "foodId") Long foodId,
             @LoginUser SessionUser user
     ){
-        List<Review> reviewList = reviewService.findByFoodId(foodId); // find review list by session user id
+        List<Review> reviewList = reviewService.findByFoodId(user.getId(), foodId); // find review list by session user id
         List<ReviewResponse> reviewListResponse = reviewList.stream()
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());

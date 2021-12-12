@@ -30,9 +30,10 @@ public class ReviewApiController {
     @Operation(summary = "리뷰 목록 조회")
     @GetMapping
     public ResponseEntity<ReviewListResponse> find(
+            @LoginUser SessionUser user,
             @PathVariable(name = "foodId") Long foodId
     ){
-        List<Review> reviews = reviewService.findByFoodId(foodId);
+        List<Review> reviews = reviewService.findByFoodId(user.getId(), foodId);
         return ResponseEntity.ok(new ReviewListResponse(reviews));
     }
 
@@ -53,10 +54,11 @@ public class ReviewApiController {
     @PutMapping("/{reviewId}")
     public ResponseEntity<ReviewResponse> update(
             @LoginUser SessionUser user,
+            @PathVariable(name = "foodId") Long foodId,
             @PathVariable(name = "reviewId") Long reviewId,
             @Valid @RequestBody ReviewRequest reviewRequest
     ){
-        Review review = reviewService.update(user.getId(), reviewId, reviewRequest);
+        Review review = reviewService.update(user.getId(), foodId, reviewId, reviewRequest);
         return ResponseEntity.ok(new ReviewResponse(review));
     }
 
@@ -64,9 +66,10 @@ public class ReviewApiController {
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> delete(
             @LoginUser SessionUser user,
+            @PathVariable(name = "foodId") Long foodId,
             @PathVariable(name = "reviewId") Long reviewId
     ){
-        reviewService.delete(user.getId(), reviewId);
+        reviewService.delete(user.getId(), foodId, reviewId);
         return ResponseEntity.noContent().build();
     }
 

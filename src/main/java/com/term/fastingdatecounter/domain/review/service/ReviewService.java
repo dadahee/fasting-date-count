@@ -35,8 +35,10 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<Review> findByFoodId(Long foodId) {
-        return reviewRepository.findByFoodIdOrderByDateDesc(foodId);
+    public List<Review> findByFoodId(Long userId, Long foodId) {
+        Food food = findFoodById(foodId);
+        validateUserAuthority(userId, food.getUser().getId());
+        return reviewRepository.findByFoodIdOrderByDateDesc(food.getId());
     }
 
     @Transactional
@@ -57,13 +59,14 @@ public class ReviewService {
     }
 
     @Transactional
-    public Review update(Long userId, Long reviewId, ReviewRequest reviewRequest){
+    public Review update(Long userId, Long foodId, Long reviewId, ReviewRequest reviewRequest){
         // 유저, 음식, 리뷰 불러오기
         User user = findUserById(userId);
         Review review = findReviewById(reviewId);
-        Food food = findFoodById(review.getFood().getId());
+        Food food = findFoodById(foodId);
 
         // 유저 권한 확인 및 리뷰 등록일 유효성 체크
+        validateUserAuthority(food.getUser().getId(), review.getFood().getUser().getId());
         validateUserAuthority(user.getId(), food.getUser().getId());
         validateReviewDate(food, reviewId, reviewRequest.getDate());
 
@@ -74,13 +77,14 @@ public class ReviewService {
     }
 
     @Transactional
-    public void delete(Long userId, Long reviewId){
+    public void delete(Long userId, Long foodId, Long reviewId){
         // 유저, 음식, 리뷰 불러오기
         User user = findUserById(userId);
         Review review = findReviewById(reviewId);
-        Food food = findFoodById(review.getFood().getId());
+        Food food = findFoodById(foodId);
 
         // 유저 권한 확인
+        validateUserAuthority(food.getUser().getId(), review.getFood().getUser().getId());
         validateUserAuthority(user.getId(), food.getUser().getId());
 
         // 리뷰 업데이트 및 음식의 단식일수 업데이트
