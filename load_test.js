@@ -1,6 +1,6 @@
 const XMLHttpRequest = require("xhr2");
 
-let url = "http://218.38.160.4:9001";
+let url = "http://203.252.166.78:9001/";
 
 function timeout(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
