@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicInsert
 @DynamicUpdate
@@ -37,11 +36,12 @@ public class Review extends BaseTimeEntity {
     private String content;
 
     @ColumnDefault("1")
-    @Column(columnDefinition = "BOOLEAN DEFAULT 1", nullable = false)
+    @Column(nullable = false)
     private boolean fasted;
 
     @Builder
-    public Review(Food food, LocalDate date, String title, String content, boolean fasted) {
+    public Review(Long id, Food food, LocalDate date, String title, String content, boolean fasted) {
+        this.id = id;
         this.food = food;
         this.date = date;
         this.title = title;

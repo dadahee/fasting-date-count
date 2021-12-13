@@ -47,7 +47,7 @@ public class FoodController {
     @GetMapping("/update/{foodId}")
     public String foodUpdateForm(Model model, @PathVariable Long foodId){
         Food food = foodService.findById(foodId);
-        model.addAttribute("food", food);
+        model.addAttribute("food", new FoodResponse(food));
         return "food-update";
     }
 }

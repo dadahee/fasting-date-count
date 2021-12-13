@@ -1,6 +1,7 @@
 package com.term.fastingdatecounter.domain.review.controller;
 
 import com.term.fastingdatecounter.domain.food.domain.Food;
+import com.term.fastingdatecounter.domain.food.dto.FoodResponse;
 import com.term.fastingdatecounter.domain.food.service.FoodService;
 import com.term.fastingdatecounter.domain.review.dto.ReviewResponse;
 import com.term.fastingdatecounter.domain.review.domain.Review;
@@ -35,15 +36,15 @@ public class ReviewController {
             @PathVariable(name = "foodId") Long foodId,
             @LoginUser SessionUser user
     ){
-        List<Review> reviewList = reviewService.findByFoodId(foodId); // find review list by session user id
+        List<Review> reviewList = reviewService.findByFoodId(user.getId(), foodId); // find review list by session user id
         List<ReviewResponse> reviewListResponse = reviewList.stream()
                 .map(ReviewResponse::new)
                 .collect(Collectors.toList());
         Food food = foodService.findById(foodId);
 
-        model.addAttribute("food", food);
+        model.addAttribute("food", new FoodResponse(food));
         model.addAttribute("user", user);
-        model.addAttribute("reviewList",reviewList);
+        model.addAttribute("reviewList", reviewListResponse);
         return "review";
     }
 
@@ -54,7 +55,7 @@ public class ReviewController {
             @PathVariable(name = "foodId") Long foodId
     ) {
         Food food = foodService.findFoodById(foodId);
-        model.addAttribute("food", food);
+        model.addAttribute("food", new FoodResponse(food));
         return "review-save";
     }
 
@@ -65,8 +66,10 @@ public class ReviewController {
             @PathVariable(name = "foodId") Long foodId,
             @PathVariable(name = "reviewId") Long reviewId
     ){
+        Food food = foodService.findFoodById(foodId);
         Review review = reviewService.findById(reviewId);
-        model.addAttribute("review", review);
+        model.addAttribute("food", new FoodResponse(food));
+        model.addAttribute("review", new ReviewResponse(review));
         return "review-update";
     }
 }

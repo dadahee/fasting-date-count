@@ -1,0 +1,11 @@
+### Spring Security & OAuth2
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-id
+            client-secret: test-secret
+            scope: profile,email
+

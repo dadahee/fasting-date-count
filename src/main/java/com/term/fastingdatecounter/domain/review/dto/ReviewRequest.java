@@ -3,8 +3,10 @@ package com.term.fastingdatecounter.domain.review.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.domain.food.domain.Food;
 import com.term.fastingdatecounter.domain.review.domain.Review;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,25 +19,26 @@ import java.time.LocalDate;
 public class ReviewRequest {
 
     @PastOrPresent(message = "FUTURE_REVIEW_DATE") // not working
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @NotBlank(message = "EMPTY_REVIEW_TITLE")
-    @Size(min = 1, max = 100, message = "TOO_LONG_REVIEW_TITLE")
+    @Size(max = 100, message = "TOO_LONG_REVIEW_TITLE")
     private String title;
 
-    @NotNull(message = "EMPTY_REVIEW_CONTENT")
-    @Size(min = 1, max = 500, message = "TOO_LONG_REVIEW_CONTENT")
+    @NotBlank(message = "EMPTY_REVIEW_CONTENT")
+    @Size(max = 500, message = "TOO_LONG_REVIEW_CONTENT")
     private String content;
 
     @NotNull(message = "EMPTY_REVIEW_FASTED")
     private boolean fasted;
 
-    public ReviewRequest(Review review) {
-        this.date = review.getDate();
-        this.title = review.getTitle();
-        this.content = review.getContent();
-        this.fasted = review.isFasted();
+    @Builder
+    public ReviewRequest(LocalDate date, String title, String content, boolean fasted) {
+        this.date = date;
+        this.title = title;
+        this.content = content;
+        this.fasted = fasted;
     }
 
     public Review toEntity(Food food){

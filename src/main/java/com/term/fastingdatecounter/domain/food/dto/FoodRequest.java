@@ -3,8 +3,10 @@ package com.term.fastingdatecounter.domain.food.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.term.fastingdatecounter.domain.food.domain.Food;
 import com.term.fastingdatecounter.domain.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
@@ -16,16 +18,17 @@ import java.time.LocalDate;
 public class FoodRequest {
 
     @NotBlank(message = "EMPTY_FOOD_NAME")
-    @Size(min = 1, max = 50, message = "TOO_LONG_FOOD_NAME")
+    @Size(max = 50, message = "TOO_LONG_FOOD_NAME")
     private String name;
 
     @PastOrPresent(message = "FUTURE_FOOD_START_DATE") // not working
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    public FoodRequest(Food food) {
-        this.name = food.getName();
-        this.startDate = food.getStartDate();
+    @Builder
+    public FoodRequest(String name, LocalDate startDate) {
+        this.name = name;
+        this.startDate = startDate;
     }
 
     public Food toEntity(User user) {
