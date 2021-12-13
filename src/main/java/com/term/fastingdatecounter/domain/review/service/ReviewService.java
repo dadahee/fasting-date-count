@@ -36,8 +36,9 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<Review> findByFoodId(Long userId, Long foodId) {
+        User user = findUserById(userId);
         Food food = findFoodById(foodId);
-        validateUserAuthority(userId, food.getUser().getId());
+        validateUserAuthority(user.getId(), food.getUser().getId());
         return reviewRepository.findByFoodIdOrderByDateDesc(food.getId());
     }
 
