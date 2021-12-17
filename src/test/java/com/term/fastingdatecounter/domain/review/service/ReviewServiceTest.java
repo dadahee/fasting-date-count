@@ -1,14 +1,12 @@
 package com.term.fastingdatecounter.domain.review.service;
 
 import com.term.fastingdatecounter.domain.food.domain.Food;
-import com.term.fastingdatecounter.domain.food.dto.FoodRequest;
 import com.term.fastingdatecounter.domain.food.repository.FoodRepository;
 import com.term.fastingdatecounter.domain.food.service.FoodService;
 import com.term.fastingdatecounter.domain.review.domain.Review;
 import com.term.fastingdatecounter.domain.review.dto.ReviewRequest;
 import com.term.fastingdatecounter.domain.review.repository.ReviewRepository;
 import com.term.fastingdatecounter.domain.user.domain.User;
-import com.term.fastingdatecounter.domain.user.dto.SessionUser;
 import com.term.fastingdatecounter.domain.user.repository.UserRepository;
 import com.term.fastingdatecounter.global.exception.ServiceException;
 import org.junit.jupiter.api.AfterEach;
@@ -45,7 +43,7 @@ class ReviewServiceTest {
     private ReviewService reviewService;
 
     @Mock
-    private FoodService fooodService;
+    private FoodService foodService;
 
     @Mock
     private FoodRepository foodRepository;
@@ -199,7 +197,7 @@ class ReviewServiceTest {
 
 
     @Test
-    @DisplayName("리뷰 저장 - 성공")
+    @DisplayName("리뷰 등록 - 성공")
     void save() {
         // given
         //// 존재하는 유저 가정
@@ -225,7 +223,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 저장 - 실패(존재하지 않는 유저)")
+    @DisplayName("리뷰 등록 - 실패(존재하지 않는 유저)")
     void saveFailedWhenNotExistUser() {
         // given
         //// 존재하자 얺는 유저
@@ -246,7 +244,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 저장 - 실패(존재하지 않는 음식)")
+    @DisplayName("리뷰 등록 - 실패(존재하지 않는 음식)")
     void saveFailedWhenNotExistFood() {
         // given
         //// 존재하는 유저
@@ -267,7 +265,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 저장 - 실패(음식 작성자와 다른 유저의 요청)")
+    @DisplayName("리뷰 등록 - 실패(음식 작성자와 다른 유저의 요청)")
     void saveFailedWhenUserWithoutAuthority() {
         // given
         //// 다른 유저
@@ -296,7 +294,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 저장 - 실패(리뷰 중복)")
+    @DisplayName("리뷰 등록 - 실패(리뷰 중복)")
     void saveFailedWhenDateConflicts() {
         // given
         //// 존재하는 유저
@@ -323,7 +321,7 @@ class ReviewServiceTest {
     }
 
     @Test
-    @DisplayName("리뷰 저장 - 실패(리뷰 날짜가 단식시작일보다 빠름)")
+    @DisplayName("리뷰 등록 - 실패(리뷰 날짜가 단식시작일보다 빠름)")
     void saveFailedWhenDateIsInvalid() {
         // given
         //// 존재하는 유저

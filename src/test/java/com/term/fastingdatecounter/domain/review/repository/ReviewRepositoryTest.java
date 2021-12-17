@@ -81,7 +81,7 @@ class ReviewRepositoryTest {
     }
 
     @Test
-    @DisplayName("리뷰 저장")
+    @DisplayName("리뷰 등록")
     void save() {
         // given
         Review review = createReview();

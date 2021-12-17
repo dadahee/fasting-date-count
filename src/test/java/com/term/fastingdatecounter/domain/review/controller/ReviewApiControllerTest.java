@@ -153,10 +153,17 @@ class ReviewApiControllerTest {
     }
 
     @Test
-    @DisplayName("리뷰 목록 조회 - 성공")
+    @DisplayName("리뷰 목록 조회 - 실패(작성자가 아닌 유저)")
     void findReviewFailedWhenUserWithoutAuthority() throws Exception {
         // given
         String url = PREFIX_URI;
+
+        //// another user
+        user = userRepository.save(User.builder()
+                .name("foreigner")
+                .email("foreigner@test.com")
+                .build());
+        session.setAttribute("user", new SessionUser(user));
 
         // when
         ResultActions result = mvc.perform(get(url)
@@ -169,8 +176,8 @@ class ReviewApiControllerTest {
                         })));
 
         // then
-        result.andExpect(status().isOk())
-                .andExpect(jsonPath("$.reviewList").exists());
+        result.andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("G02"));
     }
 
     @Test
